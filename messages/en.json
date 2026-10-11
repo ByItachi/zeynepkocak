@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "blog": "Blog",
+    "contact": "Contact",
+    "partnerships": "Brand Partnerships"
+  },
+  "hero": {
+    "title": "Understanding yourself and opening new spaces in your relationships.",
+    "subtitle": "PSYCHOLOGY & WELLBEING",
+    "description": "Individual work with adults, teens and couples; group experiences focused on psychodrama and body awareness.",
+    "cta_primary": "Get in Touch",
+    "cta_secondary": "My Services"
+  },
+  "services": {
+    "title": "My Services",
+    "adults": "Work with Adults",
+    "teens": "Work with Teens",
+    "couples": "Couples Therapy",
+    "online": "Online Sessions",
+    "psychodrama": "Psychodrama & Group Workshops",
+    "expat": "Expat Psychologist",
+    "breath": "Transformational Breath®"
+  },
+  "footer": {
+    "about": "About",
+    "services": "Services",
+    "groups": "Group Work",
+    "legal": "Legal & Contact",
+    "copyright": "All rights reserved.",
+    "follow": "Follow on Instagram"
+  }
+}

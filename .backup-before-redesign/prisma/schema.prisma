@@ -1,0 +1,316 @@
+// Prisma schema
+// Yerel geliştirme: SQLite (dosya tabanlı, gerçek kalıcı DB).
+// Üretim: datasource'u "postgresql" yapıp DATABASE_URL'i Postgres bağlantısına çevirmek yeterli
+// (Prisma şeması provider değişikliği dışında aynı kalır).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite enum tipini desteklemediği için roller/durumlar string olarak tutulur.
+// Geçerli değerler (uygulama kodunda sabit olarak tanımlı):
+// Role: SUPER_ADMIN | ADMIN | EDITOR | COLLAB_MANAGER | BRAND_CLIENT | USER
+// PostStatus: DRAFT | IN_REVIEW | SCHEDULED | PUBLISHED
+// CollaborationStatus: RECEIVED | IN_REVIEW | PROPOSAL | APPROVED | IN_PROGRESS | COMPLETED | REJECTED
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String?
+  role          String   @default("USER")
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile       Profile?
+  sessions      Session[]
+  posts         Post[]
+  auditLogs     AuditLog[]
+  collaborationRequests CollaborationRequest[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id       String  @id @default(cuid())
+  userId   String  @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio      String?
+  avatarUrl String?
+  phone    String?
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  content     String
+  status      String     @default("DRAFT")
+  seoTitle    String?
+  seoDescription String?
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model Post {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  title           String
+  excerpt         String?
+  content         String
+  coverImageUrl   String?
+  status          String     @default("DRAFT")
+  publishedAt     DateTime?
+  readingMinutes  Int?
+  seoTitle        String?
+  seoDescription  String?
+  canonicalUrl    String?
+  authorId        String?
+  author          User?      @relation(fields: [authorId], references: [id])
+  categories      PostCategory[]
+  tags            PostTagMap[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model PostCategory {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+model PostTag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts PostTagMap[]
+}
+
+model PostTagMap {
+  postId String
+  tagId  String
+  post   Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    PostTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  fileName  String
+  url       String
+  altText   String?
+  caption   String?
+  mimeType  String
+  sizeBytes Int
+  width     Int?
+  height    Int?
+  source    String   @default("upload") // upload | ai | external
+  isAi      Boolean  @default(false)
+  focusX    Float?   // 0..1
+  focusY    Float?   // 0..1
+  posterUrl String?  // video poster görseli
+  createdAt DateTime @default(now())
+
+  usages      AssetUsage[]
+  genResults  AIGenerationResult[]
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model SeoMetadata {
+  id          String   @id @default(cuid())
+  path        String   @unique
+  title       String?
+  description String?
+  canonical   String?
+  robots      String?
+  ogImageUrl  String?
+}
+
+model CollaborationRequest {
+  id           String               @id @default(cuid())
+  brandName    String
+  industry     String?
+  contactName  String
+  email        String
+  phone        String?
+  budgetRange  String?
+  deadline     DateTime?
+  description  String
+  status       String               @default("RECEIVED")
+  userId       String?
+  user         User?                @relation(fields: [userId], references: [id])
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model MenuItem {
+  id          String     @id @default(cuid())
+  parentId    String?
+  parent      MenuItem?  @relation("MenuChildren", fields: [parentId], references: [id])
+  children    MenuItem[] @relation("MenuChildren")
+  label       String
+  labelEn     String?
+  href        String?
+  description String?
+  column      Int        @default(0)
+  position    Int        @default(0)
+  isActive    Boolean    @default(true)
+  openInNew   Boolean    @default(false)
+  imageUrl    String?
+  ctaText     String?
+  ctaHref     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Appointment {
+  id              String    @id @default(cuid())
+  name            String
+  email           String
+  phone           String?
+  service         String
+  preferredDate   DateTime
+  preferredTime   String
+  sessionType     String    @default("YUZ_YUZE")
+  message         String?
+  status          String    @default("BEKLEMEDE")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  isConfirmed Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  String?
+  createdAt DateTime @default(now())
+}
+
+model IntegrationSetting {
+  provider    String   @id // "google_analytics" | "google_ads" | "search_console" | "instagram" | "smtp"
+  isConnected Boolean  @default(false)
+  config      String?  // JSON string; sadece sunucu tarafında okunur
+  lastSyncAt  DateTime?
+  lastError   String?
+  updatedAt   DateTime @updatedAt
+}
+
+// ===== v2 Görsel CMS modelleri (master prompt) =====
+
+// Gelişmiş medya kütüphanesi için MediaAsset'i yeni alanlarla zenginleştirdik.
+// Ek alanlar: kaynak (upload | ai | url), odak noktası, AI etiketi.
+model AssetUsage {
+  id        String   @id @default(cuid())
+  assetId   String
+  asset     MediaAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  refType   String   // "page" | "post" | "section" | "page_section" | "site_setting"
+  refId     String   // slug veya id
+  field     String   // url'nin kullanıldığı alan adı
+  createdAt DateTime @default(now())
+
+  @@index([assetId])
+  @@index([refType, refId])
+}
+
+// AI Görsel Stüdyosu üretim geçmişi
+model AIGeneration {
+  id          String    @id @default(cuid())
+  prompt      String
+  negative    String?
+  style       String?
+  palette     String?
+  aspectRatio String?
+  size        String?
+  category    String?   // hero | about | group | workshop | service | blog | contact | og | other
+  status      String    @default("PENDING") // PENDING | GENERATING | SUCCESS | ERROR | CANCELLED
+  provider    String?
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  results     AIGenerationResult[]
+}
+
+model AIGenerationResult {
+  id          String    @id @default(cuid())
+  generationId String
+  generation  AIGeneration @relation(fields: [generationId], references: [id], onDelete: Cascade)
+  assetId     String?
+  asset       MediaAsset? @relation(fields: [assetId], references: [id])
+  url         String?
+  prompt      String?
+  seed        Int?
+  isSelected  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+// Sayfa düzenleyicisi (sürükle-bırak bölüm tabanlı sayfa editörü)
+model PageSection {
+  id          String   @id @default(cuid())
+  pageSlug    String   // hangi sayfaya ait: "home", "hakkimda", vb.
+  blockType   String   // hero | text | image | twoColumn | gallery | cta | quote | stats | video | divider | custom
+  title       String?
+  content     String?
+  imageUrl    String?
+  imageAlt    String?
+  layout      String?  // JSON: düzen ayarları
+  style       String?  // JSON: tipografi, renk, boşluk, animasyon
+  position    Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Tema / tasarım özelleştirme (merkezi, tek yerden uygulanır)
+model DesignSetting {
+  key    String @id
+  value  String
+  group  String @default("colors") // colors | typography | layout | components
+  label  String
+  isActive Boolean @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+// Medya v2 için ek alanlar MediaAsset'e eklendi:
+// source, isAi, focusX, focusY, widthHint, heightHint,
+// Kanonik olmayan alanlar migration sonrası model'e yansır.

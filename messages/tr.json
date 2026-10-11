@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "services": "Çalışma Alanlarım",
+    "blog": "Yazılar",
+    "contact": "İletişim",
+    "partnerships": "Marka İş Birlikleri"
+  },
+  "hero": {
+    "title": "Kendinizi anlamaya ve ilişkilerinize yeni bir alan açmaya.",
+    "subtitle": "PSYCHOLOGY & WELLBEING",
+    "description": "Yetişkinler, ergenler ve çiftlerle yürütülen çalışmalar; psikodrama ve beden farkındalığı odaklı grup deneyimleri.",
+    "cta_primary": "İletişime Geç",
+    "cta_secondary": "Çalışma Alanlarım"
+  },
+  "services": {
+    "title": "Çalışma Alanlarım",
+    "adults": "Yetişkinlerle Çalışma",
+    "teens": "Ergenlerle Çalışma",
+    "couples": "Çiftlerle Çalışma",
+    "online": "Online Görüşmeler",
+    "psychodrama": "Psikodrama & Grup Atölyeleri",
+    "expat": "Expat Psychologist",
+    "breath": "Transformational Breath®"
+  },
+  "footer": {
+    "about": "Hakkımda",
+    "services": "Hizmetler",
+    "groups": "Grup Çalışmaları",
+    "legal": "Yasal & İletişim",
+    "copyright": "Tüm hakları saklıdır.",
+    "follow": "Instagram'da takip edin"
+  }
+}

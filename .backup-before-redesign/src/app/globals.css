@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #faf7f2;
+  --foreground: #2f332e;
+  --primary: #5e6b52;
+  --accent: #9c7c5c;
+  --muted: #5b5f58;
+  --card: #ffffff;
+  --border-color: #e2dccd;
+}
+
+.dark {
+  --background: #1a1d1a;
+  --foreground: #e8e4dc;
+  --primary: #8ba37a;
+  --accent: #c8a97e;
+  --muted: #a9a69c;
+  --card: #232723;
+  --border-color: #33372f;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Tema CSS değişkenleri (admin /admin/theme üzerinden yayınlanır) */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn, .animate-bounce-slow {
+    animation: none;
+  }
+}

@@ -1,0 +1,82 @@
+export default function Logo({ className = "h-8", variant = "full" }: { className?: string, variant?: "full" | "symbol" }) {
+  if (variant === "symbol") {
+    return (
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+        aria-hidden="true"
+      >
+        <path
+          d="M24 6c3.4 4.6 5.1 9.4 5.1 14.4 0 4-1.7 7.6-5.1 10.8-3.4-3.2-5.1-6.8-5.1-10.8C18.9 15.4 20.6 10.6 24 6Z"
+          fill="currentColor"
+          opacity="0.92"
+        />
+        <path
+          d="M13.2 14.4c4.9 1 8.7 3.3 11.4 7-1.2 3.9-3.6 6.9-7.3 9.1-3.9-2.6-6.2-6-6.8-10.3-.3-2.3.6-4.4 2.7-5.8Z"
+          fill="currentColor"
+          opacity="0.55"
+        />
+        <path
+          d="M34.8 14.4c-4.9 1-8.7 3.3-11.4 7 1.2 3.9 3.6 6.9 7.3 9.1 3.9-2.6 6.2-6 6.8-10.3.3-2.3-.6-4.4-2.7-5.8Z"
+          fill="currentColor"
+          opacity="0.55"
+        />
+        <path
+          d="M6.5 24.8c4.3-1.6 8.3-1.7 12 .2.9 3.6.5 6.9-1.3 10-4.3.6-7.9-.5-10.6-3.4-1.7-1.9-1.8-4.2-.1-6.8Z"
+          fill="currentColor"
+          opacity="0.32"
+        />
+        <path
+          d="M41.5 24.8c-4.3-1.6-8.3-1.7-12 .2-.9 3.6-.5 6.9 1.3 10 4.3.6 7.9-.5 10.6-3.4 1.7-1.9 1.8-4.2.1-6.8Z"
+          fill="currentColor"
+          opacity="0.32"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M24 6c3.4 4.6 5.1 9.4 5.1 14.4 0 4-1.7 7.6-5.1 10.8-3.4-3.2-5.1-6.8-5.1-10.8C18.9 15.4 20.6 10.6 24 6Z"
+        fill="currentColor"
+        opacity="0.92"
+      />
+      <path
+        d="M13.2 14.4c4.9 1 8.7 3.3 11.4 7-1.2 3.9-3.6 6.9-7.3 9.1-3.9-2.6-6.2-6-6.8-10.3-.3-2.3.6-4.4 2.7-5.8Z"
+        fill="currentColor"
+        opacity="0.55"
+      />
+      <path
+        d="M34.8 14.4c-4.9 1-8.7 3.3-11.4 7 1.2 3.9 3.6 6.9 7.3 9.1 3.9-2.6 6.2-6 6.8-10.3.3-2.3-.6-4.4-2.7-5.8Z"
+        fill="currentColor"
+        opacity="0.55"
+      />
+      <path
+        d="M6.5 24.8c4.3-1.6 8.3-1.7 12 .2.9 3.6.5 6.9-1.3 10-4.3.6-7.9-.5-10.6-3.4-1.7-1.9-1.8-4.2-.1-6.8Z"
+        fill="currentColor"
+        opacity="0.32"
+      />
+      <path
+        d="M41.5 24.8c-4.3-1.6-8.3-1.7-12 .2-.9 3.6-.5 6.9 1.3 10 4.3.6 7.9-.5 10.6-3.4 1.7-1.9 1.8-4.2.1-6.8Z"
+        fill="currentColor"
+        opacity="0.32"
+      />
+      <path
+        d="M9 39.5c4.6-2 9.9-3 15.9-3s11.3 1 15.9 3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        opacity="0.65"
+      />
+    </svg>
+  );
+}

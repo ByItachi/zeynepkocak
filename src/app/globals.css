@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* ===== Marka jetonları (referans tasarıma göre) ===== */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-hand: var(--font-caveat), "Segoe Script", cursive;
+
+  --color-cream: #f8f4ee;
+  --color-cream-deep: #efe8dc;
+  --color-paper: #ffffff;
+  --color-forest: #22392f;
+  --color-forest-deep: #1a2c24;
+  --color-forest-soft: #2f4a3e;
+  --color-sage: #5b6a52;
+  --color-tan: #c9a97e;
+  --color-tan-deep: #b3906a;
+  --color-ink: #2b2f29;
+  --color-muted: #6a6f65;
+  --color-line: #e6ded1;
+}
+
+:root {
+  --background: #f8f4ee;
+  --foreground: #2b2f29;
+  --primary: #22392f;
+  --accent: #c9a97e;
+  --muted: #6a6f65;
+  --card: #ffffff;
+  --border-color: #e6ded1;
+}
+
+.dark {
+  --background: #161a16;
+  --foreground: #e8e4dc;
+  --primary: #c9a97e;
+  --accent: #c9a97e;
+  --muted: #a3a79c;
+  --card: #1f241f;
+  --border-color: #2e342d;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+/* El yazısı alıntı vurgusu */
+.hand {
+  font-family: var(--font-hand);
+}
+
+/* Editoryal çizgi ayraç */
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Görünür odak halkası (klavye erişilebilirliği) */
+:where(a, button, summary, input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn, .animate-bounce-slow {
+    animation: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
