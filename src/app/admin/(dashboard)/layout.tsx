@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { getCurrentAdmin } from "@/lib/admin-auth";
+import { getCurrentUser } from "@/lib/auth";
+import { canAccessAdmin } from "@/lib/roles";
 import { prisma } from "@/lib/prisma";
 import AdminShell from "./_components/AdminShell";
 
@@ -10,8 +11,8 @@ export default async function AdminDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const admin = await getCurrentAdmin();
-  if (!admin) {
+  const user = await getCurrentUser();
+  if (!user || !canAccessAdmin(user.role)) {
     redirect("/admin/login");
   }
 
@@ -22,9 +23,9 @@ export default async function AdminDashboardLayout({
 
   return (
     <AdminShell
-      userName={admin.username}
-      userEmail={`${admin.username}@admin.local`}
-      userRole="SUPER_ADMIN"
+      userName={user.name ?? user.email}
+      userEmail={user.email}
+      userRole={user.role}
       pendingAppointments={pendingAppointments}
       unreadMessages={unreadMessages}
     >

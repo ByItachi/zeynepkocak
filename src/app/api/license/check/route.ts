@@ -9,7 +9,30 @@ const licenseSchema = z.object({
 
 const LICENSE_COOKIE = "zdr_license";
 
+// Brute-force koruması: IP başına 10 dakikada 10 deneme.
+const attempts = new Map<string, { count: number; first: number }>();
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_ATTEMPTS = 10;
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const r = attempts.get(ip);
+  if (!r || now - r.first > WINDOW_MS) {
+    attempts.set(ip, { count: 1, first: now });
+    return false;
+  }
+  r.count += 1;
+  return r.count > MAX_ATTEMPTS;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Çok fazla deneme yapıldı. Lütfen birkaç dakika sonra tekrar deneyin." },
+      { status: 429 }
+    );
+  }
+
   const body = await req.json().catch(() => null);
   const parsed = licenseSchema.safeParse(body);
 

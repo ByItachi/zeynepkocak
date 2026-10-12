@@ -6,7 +6,7 @@ import Logo from "@/components/Logo";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -16,10 +16,10 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -44,6 +44,8 @@ export default function AdminLoginPage() {
         <div className="flex justify-center mb-6">
           <Logo variant="symbol" className="h-16 w-16" />
         </div>
+        <h1 className="text-xl font-serif text-[#2f332e] mb-1 text-center">Yönetim Paneli</h1>
+        <p className="text-sm text-[#5b5f58] mb-6 text-center">Devam etmek için giriş yapın.</p>
 
         {error && (
           <p className="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded px-3 py-2">
@@ -51,16 +53,16 @@ export default function AdminLoginPage() {
           </p>
         )}
 
-        <label className="block text-sm text-[#5b5f58] mb-1" htmlFor="username">
-          Kullanıcı Adı
+        <label className="block text-sm text-[#5b5f58] mb-1" htmlFor="email">
+          E-posta
         </label>
         <input
-          id="username"
-          type="text"
+          id="email"
+          type="email"
           required
           autoComplete="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="w-full mb-4 rounded border border-[#e2dccd] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8b9a7a]"
         />
 
@@ -84,10 +86,6 @@ export default function AdminLoginPage() {
         >
           {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
         </button>
-
-        <div className="mt-4 text-center text-xs text-[#8b9a7a]">
-          Demo: admin / admin123
-        </div>
       </form>
     </div>
   );
