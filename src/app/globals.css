@@ -22,6 +22,67 @@
   --color-line: #e6ded1;
 }
 
+/* ===== Global container sistemi =====
+   Header, ana içerik, bölümler ve footer aynı yatay sınırları paylaşır. */
+:root {
+  --site-container-max: 1240px;
+  --site-container-padding: 20px;
+}
+@media (min-width: 640px) {
+  :root {
+    --site-container-padding: 32px;
+  }
+}
+
+.site-container,
+.site-header__inner,
+.site-main,
+.site-section__inner,
+.site-footer__inner {
+  width: 100%;
+  max-width: var(--site-container-max);
+  margin-inline: auto;
+  padding-inline: var(--site-container-padding);
+  box-sizing: border-box;
+}
+
+/* Drawer (mobil yan menü) katmanları ve hareketi */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(20, 26, 20, 0.55);
+  backdrop-filter: blur(2px);
+  animation: backdropIn 0.25s ease-out;
+}
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 70;
+  width: min(320px, 85vw);
+  background: var(--background);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -20px 0 50px -30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  animation: drawerIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  overscroll-behavior: contain;
+}
+@keyframes drawerIn {
+  to { transform: translateX(0); }
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer-panel { animation: none; transform: translateX(0); }
+  .drawer-backdrop { animation: none; }
+}
+
 :root {
   --background: #f8f4ee;
   --foreground: #2b2f29;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 
@@ -55,6 +56,8 @@ export default function SiteHeader({
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<number | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -67,6 +70,10 @@ export default function SiteHeader({
     setOpenMenu(null);
     setMobileOpen(false);
     setMobileAccordion(null);
+    // Drawer kapandıktan sonra odağı hamburger butonuna geri getir
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      hamburgerRef.current?.focus();
+    }
   }, []);
 
   // Rota değiştiğinde açık menüleri kapat (render sırasında ayarlanan durum deseni)
@@ -89,10 +96,39 @@ export default function SiteHeader({
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
+      // Drawer açıldığında odağı panel içine taşı
+      const t = setTimeout(() => {
+        drawerRef.current?.querySelector<HTMLElement>("button, a")?.focus();
+      }, 60);
       return () => {
+        clearTimeout(t);
         document.body.style.overflow = "";
       };
     }
+  }, [mobileOpen]);
+
+  // Drawer içinde basit odak tuzağı (Tab)
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "Tab" || !drawerRef.current) return;
+      const focusables = drawerRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])'
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && (active === first || !drawerRef.current.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
   // Anasayfada hero'nun üzerinde şeffaf; kaydırınca ve iç sayfalarda krem zemin
@@ -121,19 +157,19 @@ export default function SiteHeader({
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+      <div className="site-header__inner">
         <div className="flex h-[72px] items-center justify-between gap-4">
           {/* Logo */}
           <Link
             href="/"
-            className={`flex shrink-0 items-center gap-3 ${textClass}`}
+            className={`flex min-w-0 items-center gap-2.5 sm:gap-3 ${textClass}`}
             onClick={closeAll}
             aria-label={`${brandName} — Anasayfa`}
           >
-            <Logo className="h-9 w-9 text-tan" />
-            <span className="leading-none">
-              <span className="block font-serif text-[19px] tracking-[0.02em]">{brandName}</span>
-              <span className="mt-1 block text-[9.5px] font-semibold uppercase tracking-[0.3em] opacity-70">
+            <Logo className="h-8 w-8 shrink-0 text-tan sm:h-9 sm:w-9" />
+            <span className="min-w-0 leading-none">
+              <span className="block truncate font-serif text-[17px] tracking-[0.02em] sm:text-[19px]">{brandName}</span>
+              <span className="mt-1 hidden text-[9.5px] font-semibold uppercase tracking-[0.3em] opacity-70 sm:block">
                 Psikolojik Danışmanlık
               </span>
             </span>
@@ -197,10 +233,12 @@ export default function SiteHeader({
               Randevu Al
             </Link>
             <button
-              className={`-mr-2 p-2 lg:hidden ${textClass}`}
+              ref={hamburgerRef}
+              className={`-mr-2 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center lg:hidden ${textClass}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
               aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileOpen ? (
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -223,7 +261,7 @@ export default function SiteHeader({
           onMouseEnter={keepOpen}
           onMouseLeave={handleLeave}
         >
-          <div className="mx-auto max-w-[1240px] px-8 py-8">
+          <div className="site-header__inner py-8">
             <div className="grid grid-cols-2 gap-x-10 gap-y-2 lg:grid-cols-3">
               {NAV[openMenu].children!.map((link) => (
                 <Link
@@ -257,83 +295,111 @@ export default function SiteHeader({
 
       {openMenu !== null && <div className="fixed inset-0 z-[-1] hidden lg:block" onClick={() => setOpenMenu(null)} />}
 
-      {/* Mobil menü */}
-      {mobileOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-cream dark:bg-[#161a16] lg:hidden">
-          <nav className="px-5 py-4" aria-label="Mobil menü">
-            {NAV.map((item, i) => (
-              <div key={item.label} className="border-b border-line dark:border-white/10">
-                {item.children ? (
-                  <>
-                    <button
-                      onClick={() => setMobileAccordion(mobileAccordion === i ? null : i)}
-                      aria-expanded={mobileAccordion === i}
-                      className="flex w-full items-center justify-between py-4 text-left font-serif text-lg text-ink dark:text-cream"
-                    >
-                      {item.label}
-                      <svg
-                        className={`h-4 w-4 transition-transform ${mobileAccordion === i ? "rotate-180" : ""}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    {mobileAccordion === i && (
-                      <div className="animate-fadeIn pb-4">
-                        <Link
-                          href={item.href}
-                          onClick={closeAll}
-                          className="block py-2 text-[15px] font-medium text-forest dark:text-tan"
-                        >
-                          Genel Bakış →
-                        </Link>
-                        {item.children.map((link) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            onClick={closeAll}
-                            className="block py-2 text-[15px] text-muted dark:text-cream/70"
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href={item.href}
-                    onClick={closeAll}
-                    className="block py-4 font-serif text-lg text-ink dark:text-cream"
-                  >
-                    {item.label}
-                  </Link>
-                )}
+      {/* Mobil menü — yandan açılan drawer (header backdrop-filter fixed'i sınırladığı için portalla body'ye taşınır) */}
+      {mobileOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <>
+            <div className="drawer-backdrop lg:hidden" onClick={closeAll} aria-hidden="true" />
+            <div
+              id="mobile-navigation"
+              ref={drawerRef}
+              className="drawer-panel lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobil menü"
+            >
+              <div className="flex items-center justify-between border-b border-line dark:border-white/10 px-5 py-4">
+                <span className="flex items-center gap-2 font-serif text-lg text-ink dark:text-cream">
+                  <Logo className="h-7 w-7 text-tan" />
+                  Zeynep Koçak
+                </span>
+                <button
+                  onClick={closeAll}
+                  aria-label="Menüyü kapat"
+                  className="rounded-full p-2 text-ink dark:text-cream hover:bg-cream dark:hover:bg-white/10"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-            ))}
-            <div className="py-6">
-              <Link
-                href="/randevu"
-                onClick={closeAll}
-                className="block rounded-full bg-tan py-3.5 text-center font-semibold text-forest"
-              >
-                Randevu Al
-              </Link>
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 block py-2 text-center text-sm text-muted"
-              >
-                Instagram&apos;da takip et →
-              </a>
+              <nav className="flex-1 overflow-y-auto px-5 py-3" aria-label="Mobil menü">
+                {NAV.map((item, i) => (
+                  <div key={item.label} className="border-b border-line dark:border-white/10">
+                    {item.children ? (
+                      <>
+                        <button
+                          onClick={() => setMobileAccordion(mobileAccordion === i ? null : i)}
+                          aria-expanded={mobileAccordion === i}
+                          className="flex w-full items-center justify-between py-4 text-left font-serif text-lg text-ink dark:text-cream"
+                        >
+                          {item.label}
+                          <svg
+                            className={`h-4 w-4 transition-transform ${mobileAccordion === i ? "rotate-180" : ""}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {mobileAccordion === i && (
+                          <div className="animate-fadeIn pb-4">
+                            <Link
+                              href={item.href}
+                              onClick={closeAll}
+                              className="block py-2 text-[15px] font-medium text-forest dark:text-tan"
+                            >
+                              Genel Bakış →
+                            </Link>
+                            {item.children.map((link) => (
+                              <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={closeAll}
+                                className="block py-2 text-[15px] text-muted dark:text-cream/70"
+                              >
+                                {link.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={closeAll}
+                        className="block py-4 font-serif text-lg text-ink dark:text-cream"
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+                <div className="py-6">
+                  <Link
+                    href="/randevu"
+                    onClick={closeAll}
+                    className="block rounded-full bg-tan py-3.5 text-center font-semibold text-forest"
+                  >
+                    Randevu Al
+                  </Link>
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 block py-2 text-center text-sm text-muted"
+                  >
+                    Instagram&apos;da takip et →
+                  </a>
+                </div>
+              </nav>
             </div>
-          </nav>
-        </div>
-      )}
+          </>,
+          document.body
+        )}
     </header>
   );
 }

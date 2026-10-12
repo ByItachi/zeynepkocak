@@ -16,6 +16,12 @@ const BYPASS_PATHS = [
   "/favicon.ico",
   "/robots.txt",
   "/sitemap.xml",
+  // Statik medya varlıkları: Next image optimizer kaynak görseli sunucu-içi
+  // cookie'siz çeker; duvara takılırsa optimizer 500 döner ve görseller kırık
+  // görünür. Bu alt dizinler yalnızca medya içerir, korumalı HTML sayfası değil.
+  "/images/",
+  "/uploads/",
+  "/videos/",
 ];
 
 export function middleware(request: NextRequest) {

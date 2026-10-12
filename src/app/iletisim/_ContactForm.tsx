@@ -31,31 +31,31 @@ export default function ContactForm() {
   }
 
   return (
-    <form action={handleSubmit} className="space-y-4 max-w-md">
+    <form action={handleSubmit} className="space-y-4">
       {error && (
         <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>
       )}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
       <div>
-        <label className="block text-sm text-[#5b5f58] mb-1">Ad Soyad</label>
-        <input name="name" required className="w-full rounded border border-[#e2dccd] px-3 py-2 text-sm" />
+        <label className="block text-sm text-muted mb-1.5" htmlFor="cf-name">Ad Soyad</label>
+        <input id="cf-name" name="name" required className="w-full rounded-lg border border-line bg-cream px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20" />
       </div>
       <div>
-        <label className="block text-sm text-[#5b5f58] mb-1">E-posta</label>
-        <input name="email" type="email" required className="w-full rounded border border-[#e2dccd] px-3 py-2 text-sm" />
+        <label className="block text-sm text-muted mb-1.5" htmlFor="cf-email">E-posta</label>
+        <input id="cf-email" name="email" type="email" required className="w-full rounded-lg border border-line bg-cream px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20" />
       </div>
       <div>
-        <label className="block text-sm text-[#5b5f58] mb-1">Konu</label>
-        <input name="subject" className="w-full rounded border border-[#e2dccd] px-3 py-2 text-sm" />
+        <label className="block text-sm text-muted mb-1.5" htmlFor="cf-subject">Konu</label>
+        <input id="cf-subject" name="subject" className="w-full rounded-lg border border-line bg-cream px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20" />
       </div>
       <div>
-        <label className="block text-sm text-[#5b5f58] mb-1">Mesajınız</label>
-        <textarea name="message" required rows={5} className="w-full rounded border border-[#e2dccd] px-3 py-2 text-sm" />
+        <label className="block text-sm text-muted mb-1.5" htmlFor="cf-message">Mesajınız</label>
+        <textarea id="cf-message" name="message" required rows={5} className="w-full rounded-lg border border-line bg-cream px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20" />
       </div>
       <button
         type="submit"
         disabled={isPending}
-        className="rounded bg-[#5e6b52] text-white text-sm px-5 py-2.5 hover:bg-[#4c5742] disabled:opacity-60"
+        className="w-full sm:w-auto rounded-full bg-forest px-7 py-3 text-sm font-semibold text-cream hover:bg-forest-deep disabled:opacity-60 transition-colors"
       >
         {isPending ? "Gönderiliyor..." : "Gönder"}
       </button>
