@@ -1,6 +1,7 @@
 import Link from "next/link";
-import PageHero from "@/components/PageHero";
+import Image from "next/image";
 import { getAllSettings } from "@/lib/settings";
+import PageHero from "@/components/PageHero";
 
 export const metadata = {
   title: "Sıkça Sorulan Sorular | Zeynep Koçak",
@@ -8,66 +9,42 @@ export const metadata = {
     "Terapi süreci, seans süreleri, online görüşme, grup çalışmaları, randevu ve gizlilik hakkında merak edilen soruların yanıtları.",
 };
 
-const FAQ_GROUPS = [
+const FAQ = [
   {
-    group: "Terapi Süreci",
-    items: [
-      {
-        q: "Seanslar ne kadar sürüyor?",
-        a: "Bireysel görüşmeler yaklaşık 50 dakika, çift ve grup çalışmalarının süresi ise içeriğine göre değişir. Detaylar ilk görüşmede netleştirilir.",
-      },
-      {
-        q: "Hangi durumlarda destek almalıyım?",
-        a: "Kaygı, stres, tükenmişlik, ilişki güçlükleri, yaşam geçişleri, özgüven sorunları veya kendinizi daha iyi tanımak istediğinizde başvurabilirsiniz.",
-      },
-      {
-        q: "Terapiye nasıl başlanır?",
-        a: "Randevu formunu doldurarak veya iletişim kanallarından biriyle ulaşarak başlayabilirsiniz. İlk görüşme tanışma ve beklentilerin konuşulması için ayrılmıştır.",
-      },
-    ],
+    q: "Seanslar ne kadar sürüyor?",
+    a: "Bireysel görüşmeler yaklaşık 50 dakika, çift ve grup çalışmalarının süresi ise içeriğine göre değişir. Detaylar ilk görüşmede netleştirilir.",
   },
   {
-    group: "Online Görüşme",
-    items: [
-      {
-        q: "Online görüşme nasıl gerçekleşiyor?",
-        a: "Güvenli bir video konferans platformu üzerinden, yüz yüze görüşmelerle aynı gizlilik ilkeleriyle yürütülür. Dünyanın her yerinden katılabilirsiniz.",
-      },
-      {
-        q: "Online seans yüz yüze seans kadar etkili mi?",
-        a: "Birçok danışan için online süreç de etkilidir. Size en uygun format, ihtiyaçlarınıza göre birlikte belirlenir.",
-      },
-    ],
+    q: "Online görüşme nasıl gerçekleşiyor?",
+    a: "Güvenli bir video konferans platformu üzerinden, yüz yüze görüşmelerle aynı gizlilik ilkeleriyle yürütülür. Dünyanın her yerinden katılabilirsiniz.",
   },
   {
-    group: "Grup ve Atölyeler",
-    items: [
-      {
-        q: "Grup terapilerine nasıl katılabilirim?",
-        a: "Güncel grup programları dönemsel olarak duyurulur. Öncelikle ön görüşme yapılır; uygunluk birlikte değerlendirilir.",
-      },
-      {
-        q: "Atölyelere katılım için ön koşul var mı?",
-        a: "Atölyelerin içeriğine göre farklı katılım koşulları olabilir. Her atölye duyurusunda açıkça belirtilir.",
-      },
-    ],
+    q: "Grup terapilerine nasıl katılabilirim?",
+    a: "Güncel grup programları dönemsel olarak duyurulur. Öncelikle ön görüşme yapılır; uygunluk birlikte değerlendirilir.",
   },
   {
-    group: "Randevu ve Gizlilik",
-    items: [
-      {
-        q: "Randevumu iptal edebilir miyim?",
-        a: "Evet. Randevu saatinden önce haber verildiği takvimde yeni bir zaman planlanır. Ayrıntılar randevu onay mesajında yer alır.",
-      },
-      {
-        q: "Görüşmeler gizli mi kalıyor?",
-        a: "Evet. Tüm görüşme içerikleri ve kişisel bilgiler, mesleki etik kuralları ve KVKK kapsamında korunur; üçüncü kişilerle paylaşılmaz.",
-      },
-      {
-        q: "Ücretlendirme hakkında bilgi alabilir miyim?",
-        a: "Ücret bilgileri ve ödeme seçenekleri için lütfen doğrudan iletişime geçiniz; güncel bilgi tarafınıza iletilir.",
-      },
-    ],
+    q: "Randevu iptali var mı?",
+    a: "Evet. Randevu saatinden önce haber verildiğinde yeni bir zaman planlanır. Ayrıntılar randevu onay mesajında yer alır.",
+  },
+  {
+    q: "Ücretlendirme hakkında bilgi alabilir miyim?",
+    a: "Ücret bilgileri ve ödeme seçenekleri için lütfen doğrudan iletişime geçiniz; güncel bilgi tarafınıza iletilir.",
+  },
+  {
+    q: "Hangi durumlarda destek almalıyım?",
+    a: "Kaygı, stres, tükenmişlik, ilişki güçlükleri, yaşam geçişleri, özgüven sorunları veya kendinizi daha iyi tanımak istediğinizde başvurabilirsiniz.",
+  },
+  {
+    q: "Terapiye nasıl başlanır?",
+    a: "Randevu formunu doldurarak veya iletişim kanallarından biriyle ulaşarak başlayabilirsiniz. İlk görüşme tanışma ve beklentilerin konuşulması için ayrılmıştır.",
+  },
+  {
+    q: "Atölyelere katılım için ön koşul var mı?",
+    a: "Atölyelerin içeriğine göre farklı katılım koşulları olabilir. Her atölye duyurusunda açıkça belirtilir.",
+  },
+  {
+    q: "Görüşmeler gizli mi kalıyor?",
+    a: "Evet. Tüm görüşme içerikleri ve kişisel bilgiler, mesleki etik kuralları ve KVKK kapsamında korunur; üçüncü kişilerle paylaşılmaz.",
   },
 ];
 
@@ -78,47 +55,68 @@ export default async function SssPage() {
     <div>
       <PageHero
         eyebrow="Sıkça Sorulan Sorular"
-        title="Merak Ettiklerinizin Yanıtları Burada"
-        lead="Süreç, seanslar, online görüşme, grup çalışmaları ve gizlilik hakkında en çok sorulan sorular."
+        title="Sıkça Sorulan Sorular"
+        lead="Merak ettiğiniz soruların yanıtları burada bulunabilir."
         quote="“Sormak, iyileşmenin sessiz adımıdır.”"
         breadcrumb={[{ label: "Anasayfa", href: "/" }, { label: "Sıkça Sorulan Sorular" }]}
       />
 
-      <section className="py-14 lg:py-20">
-        <div className="mx-auto max-w-[980px] px-5 sm:px-8">
-          {FAQ_GROUPS.map((group) => (
-            <div key={group.group} className="mb-12 last:mb-0">
-              <h2 className="font-serif text-[1.6rem] text-ink dark:text-cream sm:text-[1.9rem]">{group.group}</h2>
-              <div className="mt-5 space-y-3">
-                {group.items.map((item) => (
-                  <details
-                    key={item.q}
-                    className="group rounded-2xl border border-line bg-paper px-6 py-4 dark:border-white/10 dark:bg-white/5"
+      {/* Sorular — düz liste */}
+      <section className="py-12 lg:py-16">
+        <div className="mx-auto max-w-[860px] px-5 sm:px-8">
+          <div className="space-y-3">
+            {FAQ.map((item) => (
+              <details
+                key={item.q}
+                className="group rounded-2xl border border-line bg-paper px-6 py-4 dark:border-white/10 dark:bg-white/5"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-[17px] text-ink dark:text-cream">
+                  {item.q}
+                  <svg
+                    className="h-5 w-5 shrink-0 text-tan transition-transform group-open:rotate-45"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.8}
                   >
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-[17px] text-ink dark:text-cream">
-                      {item.q}
-                      <svg
-                        className="h-5 w-5 shrink-0 text-tan transition-transform group-open:rotate-45"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.8}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
-                      </svg>
-                    </summary>
-                    <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{item.a}</p>
-                  </details>
-                ))}
-              </div>
-            </div>
-          ))}
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
+                  </svg>
+                </summary>
+                <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-cream-deep py-14 dark:bg-[#101410] lg:py-20">
-        <div className="mx-auto max-w-[980px] px-5 text-center sm:px-8">
-          <h2 className="font-serif text-[1.9rem] text-ink dark:text-cream">Aradığınız yanıtı bulamadınız mı?</h2>
+      {/* Görsel + el yazısı alıntı bandı */}
+      <section className="pb-6">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+          <div className="relative overflow-hidden rounded-[22px]">
+            <Image
+              src="/images/grup/oturum-mum.jpg"
+              alt="Sıcak ışıkta sakin bir ortam — mumlar ve bitkiler"
+              width={1600}
+              height={700}
+              className="h-[280px] w-full object-cover sm:h-[340px]"
+              loading="lazy"
+            />
+            <span className="absolute inset-0 bg-gradient-to-r from-forest/85 via-forest/55 to-transparent" />
+            <div className="absolute inset-0 flex items-center px-7 sm:px-12">
+              <p className="hand max-w-[520px] text-[26px] leading-snug text-tan sm:text-[32px]">
+                “Sorularınız, doğru adım atmanız için bize yol gösterir.”
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-cream-deep py-14 dark:bg-[#101410] lg:py-16">
+        <div className="mx-auto max-w-[860px] px-5 text-center sm:px-8">
+          <h2 className="font-serif text-[1.8rem] text-ink dark:text-cream">
+            Aradığınız yanıtı bulamadınız mı?
+          </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15.5px] leading-relaxed text-muted">
             Sorularınız için her zaman iletişime geçebilirsiniz. Size en kısa sürede dönüş yapılır.
           </p>

@@ -1,160 +1,283 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllSettings } from "@/lib/settings";
+import PageHero from "@/components/PageHero";
 
 export const metadata = {
   title: "Çalışma Alanlarım | Zeynep Koçak",
-  description: "Yetişkin, ergen, çift terapisi, psikodrama, grup atölyeleri, expat desteği ve transformational breath çalışmaları.",
+  description:
+    "Bireysel danışmanlık, çift terapisi, grup terapileri, atölyeler, ergen ve online görüşme çalışma alanları.",
 };
+
+const PRIMARY_CARDS = [
+  {
+    title: "Bireysel Danışmanlık",
+    desc: "Kaygı, tükenmişlik, ilişki güçlükleri, özgüven ve yaşamsal geçiş dönemlerinde bireysel görüşmeler.",
+    href: "/yetiskinlerle-calisma",
+    image: "/images/portre/zeynep-portre-yesil.jpg",
+    alt: "Uzm. Psk. Zeynep Koçak portresi",
+  },
+  {
+    title: "Çift Terapisi",
+    desc: "İletişim sorunları, güven, çatışma çözümü ve ilişkiyi güçlendirme odaklı çift görüşmeleri.",
+    href: "/ciftlerle-calisma",
+    image: "/instagram/post-5.jpg",
+    alt: "Birlikte not alan iki kişi",
+  },
+  {
+    title: "Grup Terapileri",
+    desc: "Benzer deneyimleri paylaşan bireyler için güvenli, destekleyici grup terapileri.",
+    href: "/grup-terapileri",
+    image: "/images/grup-calismasi-1.jpg",
+    alt: "Bir grup çalışmasından genel kadraj",
+  },
+  {
+    title: "Atölyeler",
+    desc: "Psikodrama temelli atölyelerle farkındalık, kişisel gelişim ve grup deneyimi.",
+    href: "/atolyeler",
+    image: "/images/atolye/atolye-atolyede.jpg",
+    alt: "Bir atölyede grup çalışması yürütülürken",
+  },
+];
+
+const SECONDARY_LINKS = [
+  {
+    title: "Ergenlerle Çalışma",
+    href: "/ergenlerle-calisma",
+    desc: "Kimlik, aile ve okul kaynaklı zorluklarda ergenle birebir çalışma.",
+  },
+  {
+    title: "Online Görüşmeler",
+    href: "/online-gorusmeler",
+    desc: "Dünyanın her yerinden güvenli ve gizli online seans imkânı.",
+  },
+  {
+    title: "Psikodrama & Grup Atölyeleri",
+    href: "/psikodrama",
+    desc: "Co-Psychodramatist olarak psikodrama temelli grup çalışmaları.",
+  },
+  {
+    title: "Expat Psychologist",
+    href: "/expat-psychologist",
+    desc: "Türkiye'de yaşayan yabancı danışanlar için İngilizce destek.",
+  },
+  {
+    title: "Transformational Breath®",
+    href: "/transformational-breath",
+    desc: "Beden farkındalığı ve nefes çalışması temelli grup ve bireysel seanslar.",
+  },
+];
+
+const APPROACH = [
+  {
+    title: "Bireysel Terapi",
+    desc: "Zorluklarla başa çıkma, öz farkındalık ve kişisel gelişim için birebir çalışma.",
+    href: "/yetiskinlerle-calisma",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className="h-7 w-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" />
+      </svg>
+    ),
+  },
+  {
+    title: "Güvenli Alan",
+    desc: "Yargılamadan, gizlilik ilkesiyle korunaklı bir ortamda ilerleyen süreç.",
+    href: "/gizlilik-politikasi",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className="h-7 w-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l7 3v5c0 4.4-2.9 8.3-7 10-4.1-1.7-7-5.6-7-10V6l7-3Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m9 12 2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    title: "Bireysel Yaklaşım",
+    desc: "Her danışana özel, ihtiyaç ve hedeflere göre kişiselleştirilen bir yol haritası.",
+    href: "/hakkimda",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className="h-7 w-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1M7.7 16.3l-2.1 2.1" />
+        <circle cx="12" cy="12" r="3.2" />
+      </svg>
+    ),
+  },
+];
+
+const PROCESS = [
+  { t: "İlk Görüşme", d: "İhtiyaçlarınızı ve beklentilerinizi dinler, birlikte çalışmayı değerlendiririz." },
+  { t: "Değerlendirme", d: "Size en uygun yöntem ve görüşme sıklığı birlikte belirlenir." },
+  { t: "Kişisel Plan", d: "Hedefleriniz doğrultusunda kişiye özel bir terapi planı oluşturulur." },
+  { t: "Terapi Süreci", d: "Düzenli görüşmelerle ilerleme değerlendirilir ve süreç esnek biçimde güncellenir." },
+];
 
 export default async function CalismAlanlarPage() {
   const settings = await getAllSettings();
 
-  const areas = [
-    {
-      title: "Yetişkinlerle Çalışma",
-      description: "Kaygı, tükenmişlik, ilişki güçlükleri, özgüven ve yaşamsal geçiş dönemlerinde bireysel görüşmeler.",
-      href: "/yetiskinlerle-calisma",
-      icon: "👤",
-    },
-    {
-      title: "Ergenlerle Çalışma",
-      description: "Ergenlik dönemine özgü kimlik, aile ve okul kaynaklı sorunlarda ergenle birebir çalışma.",
-      href: "/ergenlerle-calisma",
-      icon: "👥",
-    },
-    {
-      title: "Çiftlerle Çalışma",
-      description: "İletişim sorunları, güven, çatışma çözümü ve ilişkiyi güçlendirme odaklı çift görüşmeleri.",
-      href: "/ciftlerle-calisma",
-      icon: "💑",
-    },
-    {
-      title: "Online Görüşmeler",
-      description: "Dünyanın her yerinden güvenli ve gizli online seans imkânı.",
-      href: "/online-gorusmeler",
-      icon: "💻",
-    },
-    {
-      title: "Psikodrama & Grup Atölyeleri",
-      description: "Co-Psychodramatist olarak psikodrama temelli grup çalışmaları ve atölyeler.",
-      href: "/psikodrama",
-      icon: "🎭",
-    },
-    {
-      title: "Expat Psychologist",
-      description: "Türkiye'de yaşayan yabancı danışanlar için İngilizce psikolojik destek.",
-      href: "/expat-psychologist",
-      icon: "🌍",
-    },
-    {
-      title: "Transformational Breath®",
-      description: "Beden farkındalığı ve nefes çalışması temelli grup ve bireysel seanslar.",
-      href: "/transformational-breath",
-      icon: "🌬️",
-    },
-  ];
-
   return (
     <div>
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-[#faf7f2] to-white py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="font-serif text-4xl md:text-5xl mb-6 text-[#2f332e]">
-            Çalışma Alanlarım
-          </h1>
-          <p className="text-lg text-[#5b5f58] leading-relaxed">
-            Yetişkin, ergen ve çiftlerle çalışan, psikodrama ve grup atölyeleri yürüten, uluslararası danışanlara destek veren bir psikoloji pratiğiyim. Her hizmet alanı hakkında detaylı bilgi için aşağıdaki bölümleri inceleyebilirsiniz.
-          </p>
+      <PageHero
+        eyebrow="Hizmetler"
+        title="Çalışma Alanlarım"
+        lead="Kendinizi anlamak ve değişim alan açmak için."
+        quote="“Her insanın hikâyesi kendine özgüdür.”"
+        breadcrumb={[{ label: "Anasayfa", href: "/" }, { label: "Çalışma Alanlarım" }]}
+      />
+
+      {/* GİRİŞ — metin + görsel */}
+      <section className="py-14 lg:py-20">
+        <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-12">
+          <div className="lg:col-span-6">
+            <p className="eyebrow text-sage dark:text-tan">Psikolojik Destek</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-tight text-ink dark:text-cream sm:text-[2.4rem]">
+              Her bireyin hikâyesi özeldir.
+            </h2>
+            <p className="mt-5 text-[15.5px] leading-relaxed text-muted">
+              Çalışma alanlarım; yaşamın farklı dönemlerinde karşılaşabileceğiniz duygusal, ilişkisel ve
+              kişisel zorluklara yönelik profesyonel psikolojik destek sunmayı kapsar. İhtiyacınıza uygun
+              terapi formunu birlikte belirleyerek, daha sağlıklı ve dengeli bir yaşam kurmanıza destek
+              oluyorum.
+            </p>
+            <p className="hand mt-6 text-[26px] text-sage dark:text-tan">Zeynep Koçak</p>
+          </div>
+          <div className="lg:col-span-6">
+            <div className="overflow-hidden rounded-[22px] shadow-[0_30px_70px_-45px_rgba(34,57,47,0.8)]">
+              <Image
+                src="/instagram/post-4.jpg"
+                alt="Sakin bir okuma köşesi — kitaplar ve bitkiler"
+                width={1200}
+                height={800}
+                className="h-[340px] w-full object-cover sm:h-[400px]"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ÇALIŞMA ALANLARI GRID */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {areas.map((area) => (
+      {/* ANA ÇALIŞMA ALANLARI — kartlar */}
+      <section className="pb-4">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PRIMARY_CARDS.map((c) => (
               <Link
-                key={area.href}
-                href={area.href}
-                className="group"
+                key={c.href}
+                href={c.href}
+                className="group flex flex-col overflow-hidden rounded-[22px] border border-line bg-paper transition-shadow hover:shadow-[0_24px_50px_-40px_rgba(34,57,47,0.7)] dark:border-white/10 dark:bg-white/5"
               >
-                <div className="bg-white border border-[#e2dccd] rounded-lg p-8 hover:border-[#8b9a7a] hover:shadow-lg transition-all h-full flex flex-col">
-                  <div className="text-4xl mb-4">{area.icon}</div>
-                  <h3 className="font-serif text-2xl mb-4 text-[#2f332e] group-hover:text-[#5e6b52]">
-                    {area.title}
-                  </h3>
-                  <p className="text-[#5b5f58] mb-6 flex-grow leading-relaxed">
-                    {area.description}
-                  </p>
-                  <span className="text-[#5e6b52] font-medium">
-                    Detaylar →
+                <div className="relative h-[190px] w-full">
+                  <Image
+                    src={c.image}
+                    alt={c.alt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="font-serif text-[19px] text-ink dark:text-cream">{c.title}</h3>
+                  <p className="mt-2 flex-1 text-[13.5px] leading-relaxed text-muted">{c.desc}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 self-start border-b border-forest pb-0.5 text-[13.5px] font-semibold text-forest dark:border-tan dark:text-tan">
+                    Detayları Gör
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h15m0 0-5-5m5 5-5 5" />
+                    </svg>
                   </span>
                 </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* İkincil alanlar — kompakt bağlantılar */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {SECONDARY_LINKS.map((s) => (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="group rounded-2xl border border-line bg-cream px-5 py-4 transition-colors hover:border-tan dark:border-white/10 dark:bg-white/5"
+              >
+                <span className="block font-serif text-[16px] text-ink dark:text-cream">{s.title}</span>
+                <span className="mt-1 block text-[12.5px] leading-relaxed text-muted">{s.desc}</span>
+                <span className="mt-2 inline-block text-[12.5px] font-semibold text-forest dark:text-tan">
+                  Detay →
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ORTAK ÖZELLIKLER */}
-      <section className="bg-[#f1ece2] py-20 md:py-28">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="font-serif text-3xl md:text-4xl mb-12 text-[#2f332e]">
-            Tüm Çalışmalarda Ortak Özellikler
+      {/* MESLEKİ YAKLAŞIM */}
+      <section className="bg-cream-deep py-14 dark:bg-[#101410] lg:py-20">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+          <p className="eyebrow text-center text-sage dark:text-tan">Yaklaşımım</p>
+          <h2 className="mt-3 text-center font-serif text-[1.9rem] leading-tight text-ink dark:text-cream sm:text-[2.3rem]">
+            Mesleki Yaklaşımım
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="font-serif text-xl mb-4 text-[#2f332e]">Gizlilik & Güven</h3>
-              <p className="text-[#5b5f58] leading-relaxed">
-                Tüm görüşmeler tamamen gizli ve güvenli ortamda gerçekleşir. Danışan bilgileri kesinlikle başka kişilerle paylaşılmaz.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-serif text-xl mb-4 text-[#2f332e]">Profesyonel Yaklaşım</h3>
-              <p className="text-[#5b5f58] leading-relaxed">
-                Uzman Psikolog olarak mesleki etik kurallarına uygun, kanıta dayalı ve kişiye özel bir yaklaşım sunuyorum.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-serif text-xl mb-4 text-[#2f332e]">Yüz Yüze & Online</h3>
-              <p className="text-[#5b5f58] leading-relaxed">
-                Bağdat Caddesi'ndeki ofisimde yüz yüze veya dünyanın her yerinden online olarak çalışma imkânı.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-serif text-xl mb-4 text-[#2f332e]">Kişiye Özel Çalışma</h3>
-              <p className="text-[#5b5f58] leading-relaxed">
-                Her danışan benzersizdir. Çalışmamız sizin ihtiyaçlarınız ve hedefleriniz doğrultusunda şekillendirilir.
-              </p>
-            </div>
+          <div className="mt-10 grid gap-8 md:grid-cols-3">
+            {APPROACH.map((a) => (
+              <Link key={a.title} href={a.href} className="group text-center">
+                <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-paper text-forest shadow-sm transition-colors group-hover:bg-tan group-hover:text-white dark:bg-white/10 dark:text-tan">
+                  {a.icon}
+                </span>
+                <h3 className="mt-4 font-serif text-[19px] text-ink dark:text-cream">{a.title}</h3>
+                <p className="mx-auto mt-2 max-w-[300px] text-[13.5px] leading-relaxed text-muted">
+                  {a.desc}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* İLETİŞİM CTA */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl mb-6 text-[#2f332e]">
-            Hangi hizmet sizin için uygun olabilir?
+      {/* SÜREÇ */}
+      <section className="py-14 lg:py-20">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+          <p className="eyebrow text-sage dark:text-tan">Süreç</p>
+          <h2 className="mt-3 font-serif text-[1.9rem] leading-tight text-ink dark:text-cream sm:text-[2.3rem]">
+            Süreç Nasıl İşler?
           </h2>
-          <p className="text-lg text-[#5b5f58] mb-10 leading-relaxed">
-            Emin değilseniz, lütfen iletişime geçiniz. Birlikte uygun çalışma alanını belirleyebiliriz.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {PROCESS.map((p, i) => (
+              <div
+                key={p.t}
+                className="rounded-2xl border border-line bg-paper p-6 dark:border-white/10 dark:bg-white/5"
+              >
+                <span className="font-serif text-[26px] text-tan">{String(i + 1).padStart(2, "0")}</span>
+                <p className="mt-2 font-serif text-[18px] text-ink dark:text-cream">{p.t}</p>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{p.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-forest text-cream">
+        <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-8 px-5 py-14 sm:px-8 lg:flex-row lg:justify-between lg:py-16">
+          <div className="text-center lg:text-left">
+            <h2 className="font-serif text-[1.7rem] leading-tight sm:text-[2.1rem]">
+              İhtiyacınıza uygun desteği birlikte keşfedelim.
+            </h2>
+            <p className="mt-2 text-[15px] text-cream/75">
+              Kendinize ayıracağınız her adım, daha iyi bir yarın için.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              href="/randevu"
+              className="rounded-full bg-tan px-7 py-3.5 text-[14.5px] font-semibold text-forest transition-colors hover:bg-white"
+            >
+              Randevu Al
+            </Link>
             <a
               href={settings.whatsapp_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#5e6b52] text-white px-8 py-3 rounded hover:bg-[#4c5742] transition-colors font-medium"
+              className="rounded-full border border-white/60 px-7 py-3.5 text-[14.5px] font-semibold text-white transition-colors hover:bg-white hover:text-forest"
             >
-              WhatsApp'tan Yaz
+              WhatsApp&apos;tan Yaz
             </a>
-            <Link
-              href="/iletisim"
-              className="inline-block border-2 border-[#5e6b52] text-[#5e6b52] px-8 py-3 rounded hover:bg-[#f1ece2] transition-colors font-medium"
-            >
-              İletişim Formu
-            </Link>
           </div>
         </div>
       </section>

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { getAllSettings } from "@/lib/settings";
+import PageHero from "@/components/PageHero";
 import AppointmentForm from "./_AppointmentForm";
 
 export const dynamic = "force-dynamic";
@@ -10,115 +10,110 @@ export const metadata = {
     "Yüz yüze veya online görüşme için randevu talebi oluşturun. İstanbul, Bağdat Caddesi.",
 };
 
+const STEPS = [
+  {
+    t: "Formu Doldurun",
+    d: "Randevu talep formunu eksiksiz doldurun; ihtiyaçlarınızı kısaca belirtin.",
+  },
+  {
+    t: "Ön Görüşme",
+    d: "15-20 dakikalık ücretsiz online ön görüşmede beklentilerinizi dinleriz.",
+  },
+  {
+    t: "Uygun Zaman",
+    d: "Size en uygun gün ve saat birlikte belirlenir; onay bilgisi paylaşılır.",
+  },
+  {
+    t: "Görüşme",
+    d: "Yüz yüze (Bağdat Caddesi) veya online olarak ilk seans gerçekleştirilir.",
+  },
+];
+
 export default async function RandevuPage() {
   const settings = await getAllSettings();
 
   return (
     <div>
-      {/* Giriş */}
-      <section className="bg-gradient-to-b from-[#faf7f2] to-[#f1ece2] dark:from-[#1a1d1a] dark:to-[#1e211e] py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#5e6b52] dark:text-[#8b9a7a] mb-4 font-medium">
-              Randevu & Ön Görüşme
-            </p>
-            <h1 className="font-serif text-3xl md:text-5xl text-[#2f332e] dark:text-[#e8e4dc] mb-6">
-              Birlikte çalışmaya nasıl başlarız?
-            </h1>
-            <p className="text-lg text-[#5b5f58] dark:text-[#9a9e95] leading-relaxed">
-              Terapi sürecine başlamadan önce birbirinizi tanımak çok kıymetlidir. Bu nedenle ilk
-              adım olarak <strong className="text-[#2f332e] dark:text-[#e8e4dc]">15–20 dakikalık online ön görüşme</strong>{" "}
-              öneriyorum. Bu görüşmede ihtiyaçlarınızı dinler, birlikte çalışabileceğimizi birlikte
-              değerlendiririz. Görüşmeler İstanbul&apos;da Bağdat Caddesi&apos;nde yüz yüze veya dünyanın
-              her yerinden online olarak yapılabilir.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
+      <PageHero
+        eyebrow="Randevu"
+        title="Randevu Al"
+        lead="Kendine yeni bir adım at."
+        quote="“İyi hissetmek bir lüks değil, bir ihtiyaçtır.”"
+        breadcrumb={[{ label: "Anasayfa", href: "/" }, { label: "Randevu Al" }]}
+      />
+
+      <section className="py-14 lg:py-20">
+        <div className="mx-auto grid max-w-[1240px] gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:gap-14">
+          {/* Sol: form */}
+          <div className="lg:col-span-7">
+            <div className="rounded-[22px] border border-line bg-paper p-7 shadow-[0_20px_50px_-40px_rgba(34,57,47,0.6)] sm:p-9 dark:border-white/10 dark:bg-white/5">
+              <h2 className="font-serif text-[1.7rem] text-ink dark:text-cream">Randevu Talep Formu</h2>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-muted">
+                Formu doldurun; talebiniz değerlendirildikten sonra size en kısa sürede dönüş yapılır.
+                İlk online ön görüşme (15-20 dakika) ücretsizdir.
+              </p>
+              <div className="mt-7">
+                <AppointmentForm whatsappUrl={settings.whatsapp_url} />
+              </div>
+            </div>
+          </div>
+
+          {/* Sağ: süreç + not */}
+          <div className="lg:col-span-5">
+            <div className="rounded-[22px] border border-line bg-cream p-7 dark:border-white/10 dark:bg-white/5">
+              <p className="eyebrow text-sage dark:text-tan">Süreç</p>
+              <h2 className="mt-3 font-serif text-[1.7rem] text-ink dark:text-cream">Randevu Süreci</h2>
+
+              <ol className="mt-6 space-y-5">
+                {STEPS.map((s, i) => (
+                  <li key={s.t} className="flex gap-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-forest font-serif text-[14px] text-white dark:bg-tan dark:text-forest">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>
+                      <span className="block text-[15.5px] font-semibold text-ink dark:text-cream">
+                        {s.t}
+                      </span>
+                      <span className="mt-0.5 block text-[13.5px] leading-relaxed text-muted">{s.d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="mt-6 rounded-[22px] border border-line bg-paper p-7 dark:border-white/10 dark:bg-white/5">
+              <p className="hand text-[25px] leading-snug text-sage dark:text-tan">
+                “Kendine zaman ayır, çünkü sen kıymetlisin.”
+              </p>
+              <p className="mt-3 text-[14px] leading-relaxed text-muted">
+                Görüşmeler İstanbul Bağdat Caddesi&apos;nde yüz yüze veya dünyanın her yerinden online
+                olarak yapılabilir.
+              </p>
+              <dl className="mt-5 space-y-2.5 text-[14px]">
+                <div className="flex gap-3">
+                  <dt className="w-24 shrink-0 text-muted">Konum</dt>
+                  <dd className="font-medium text-ink dark:text-cream">{settings.location}</dd>
+                </div>
+                <div className="flex gap-3">
+                  <dt className="w-24 shrink-0 text-muted">Şekil</dt>
+                  <dd className="font-medium text-ink dark:text-cream">Yüz yüze &amp; Online</dd>
+                </div>
+                <div className="flex gap-3">
+                  <dt className="w-24 shrink-0 text-muted">İptal</dt>
+                  <dd className="font-medium text-ink dark:text-cream">
+                    Saatinden önce haber verildiğinde planlanır
+                  </dd>
+                </div>
+              </dl>
               <a
                 href={settings.whatsapp_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-[#5e6b52] text-white px-8 py-3 rounded hover:bg-[#4c5742] transition-colors font-medium"
+                className="mt-6 inline-block w-full rounded-full bg-forest px-6 py-3.5 text-center text-[14px] font-semibold text-white transition-colors hover:bg-forest-deep dark:bg-tan dark:text-forest"
               >
-                WhatsApp ile Yazın
-              </a>
-              <a
-                href="mailto:info@zeynepkocak.com"
-                className="inline-block border-2 border-[#5e6b52] text-[#5e6b52] dark:text-[#8b9a7a] dark:border-[#8b9a7a] px-8 py-3 rounded hover:bg-[#f1ece2] dark:hover:bg-[#2f332e] transition-colors font-medium"
-              >
-                E-posta Gönderin
+                WhatsApp&apos;tan Hemen Yaz
               </a>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Form */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white dark:bg-[#222522] border border-[#e2dccd] dark:border-[#2f332e] rounded-2xl p-8 md:p-10 shadow-sm">
-              <h2 className="font-serif text-2xl mb-2 text-[#2f332e] dark:text-[#e8e4dc]">
-                Randevu Talebi Formu
-              </h2>
-              <p className="text-sm text-[#5b5f58] dark:text-[#9a9e95] mb-8">
-                Formu doldurun, talebiniz değerlendirildikten sonra size en kısa sürede dönüş yapılır.
-              </p>
-              <AppointmentForm whatsappUrl={settings.whatsapp_url} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SSS */}
-      <section className="bg-[#f1ece2] dark:bg-[#1e211e] py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="font-serif text-3xl md:text-4xl mb-12 text-[#2f332e] dark:text-[#e8e4dc] text-center">
-              Sık Sorulan Sorular
-            </h2>
-            <div className="space-y-4">
-              {[
-                {
-                  q: "Ön görüşme ücretli mi?",
-                  a: "İlk online ön görüşme (15-20 dakika) ücretsizdir. Bu görüşmede ihtiyaçlarınızı dinler ve birlikte çalışmanın sizin için uygun olup olmadığını değerlendiririz.",
-                },
-                {
-                  q: "Seanslar ne kadar sürer?",
-                  a: "Bireysel seanslar yaklaşık 50 dakika, çift seansları 75-90 dakika sürer. Değerlendirme sürecine göre seans sıklığı birlikte planlanır.",
-                },
-                {
-                  q: "Online görüşme nasıl yapılır?",
-                  a: "Güvenli bir video konferans platformu üzerinden yapılır. Dünyanın her yerinden online seans alabilirsiniz.",
-                },
-                {
-                  q: "İlk görüşmede ne konuşulur?",
-                  a: "Tanışma, ihtiyaçlarınızın paylaşılması ve hedeflerin birlikte belirlenmesi. Burası sizin alanınız — aklınızdaki her şeyi konuşabilirsiniz.",
-                },
-                {
-                  q: "Bilgilerim gizli kalır mı?",
-                  a: "Evet. Görüşme içerikleri ve kişisel bilgileriniz gizlilik ilkesi ve KVKK kapsamında korunur. Detaylar için Gizlilik Politikası sayfamızı inceleyebilirsiniz.",
-                },
-              ].map((faq, i) => (
-                <details key={i} className="group bg-white dark:bg-[#222522] border border-[#e2dccd] dark:border-[#2f332e] rounded-lg">
-                  <summary className="flex items-center justify-between cursor-pointer px-6 py-4 font-medium text-[#2f332e] dark:text-[#e8e4dc] list-none">
-                    {faq.q}
-                    <svg className="w-5 h-5 text-[#5e6b52] transition-transform group-open:rotate-180 shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </summary>
-                  <div className="px-6 pb-4">
-                    <p className="text-sm text-[#5b5f58] dark:text-[#9a9e95] leading-relaxed">{faq.a}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
-            <p className="text-center mt-10 text-sm text-[#5b5f58] dark:text-[#9a9e95]">
-              Başka sorularınız mı var?{" "}
-              <Link href="/iletisim" className="text-[#5e6b52] dark:text-[#8b9a7a] hover:underline font-medium">
-                İletişim sayfası
-              </Link>{" "}
-              üzerinden bize ulaşabilirsiniz.
-            </p>
           </div>
         </div>
       </section>

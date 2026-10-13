@@ -158,7 +158,7 @@ export default function SiteHeader({
       }`}
     >
       <div className="site-header__inner">
-        <div className="flex h-[72px] items-center justify-between gap-4">
+        <div className="flex h-[72px] items-center justify-between gap-3 xl:gap-4">
           {/* Logo */}
           <Link
             href="/"
@@ -169,7 +169,7 @@ export default function SiteHeader({
             <Logo className="h-8 w-8 shrink-0 text-tan sm:h-9 sm:w-9" />
             <span className="min-w-0 leading-none">
               <span className="block truncate font-serif text-[17px] tracking-[0.02em] sm:text-[19px]">{brandName}</span>
-              <span className="mt-1 hidden text-[9.5px] font-semibold uppercase tracking-[0.3em] opacity-70 sm:block">
+              <span className="mt-1 hidden text-[9.5px] font-semibold uppercase tracking-[0.3em] opacity-70 sm:block lg:hidden xl:block">
                 Psikolojik Danışmanlık
               </span>
             </span>
@@ -189,7 +189,7 @@ export default function SiteHeader({
                     onClick={() => setOpenMenu(openMenu === i ? null : i)}
                     aria-expanded={openMenu === i}
                     aria-haspopup="true"
-                    className={`flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors ${linkClass}`}
+                    className={`flex items-center gap-1 whitespace-nowrap px-2 py-2 text-[14px] font-medium transition-colors lg:px-2 xl:px-3 ${linkClass}`}
                   >
                     {item.label}
                     <svg
@@ -206,7 +206,7 @@ export default function SiteHeader({
                   <Link
                     href={item.href}
                     onClick={closeAll}
-                    className={`block px-3 py-2 text-[14px] font-medium transition-colors ${
+                    className={`block whitespace-nowrap px-2 py-2 text-[14px] font-medium transition-colors lg:px-2 xl:px-3 ${
                       pathname === item.href
                         ? solid
                           ? "text-forest dark:text-tan"
@@ -228,7 +228,7 @@ export default function SiteHeader({
             </span>
             <Link
               href="/randevu"
-              className="hidden rounded-full bg-tan px-6 py-2.5 text-[13.5px] font-semibold tracking-wide text-forest shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)] transition-colors hover:bg-tan-deep hover:text-white sm:inline-block"
+              className="hidden rounded-full bg-tan px-5 py-2.5 text-[13.5px] font-semibold tracking-wide text-forest shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)] transition-colors hover:bg-tan-deep hover:text-white sm:inline-block xl:px-6"
             >
               Randevu Al
             </Link>

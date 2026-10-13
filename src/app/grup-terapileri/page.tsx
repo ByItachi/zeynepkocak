@@ -92,6 +92,28 @@ const PROGRAMS = [
   },
 ];
 
+// Uygulanan grup terapileri başlıkları (mockup yapısına göre)
+const APPLIED_GROUPS = [
+  {
+    title: "Anksiyete Grubu",
+    desc: "Kaygı ve stresle başa çıkma tekniklerini güvenli bir grup ortamında öğrenmek için.",
+    image: "/images/grup/oturum-mum.jpg",
+    alt: "Sıcak ışıkta mumlarla yürütülen grup oturumu",
+  },
+  {
+    title: "Öz Güven ve Benlik Grubu",
+    desc: "Kendini tanımak, benlik algısını güçlendirmek ve daha sağlıklı sınırlar kurmak için.",
+    image: "/images/grup/oturum-yumruk.jpg",
+    alt: "Grup egzersizinde katılımcıların kaldırdığı yumruklar",
+  },
+  {
+    title: "İlişkiler ve İletişim Grubu",
+    desc: "İlişki örüntülerini anlamak ve iletişim becerilerini geliştirmek için.",
+    image: "/images/grup/oturum-daire.jpg",
+    alt: "Grup terapisi oturumunda oturma daireyi",
+  },
+];
+
 // Oturumdan fotoğraflar — katılımcı izniyle paylaşılan gerçek grup çalışması kareleri.
 const SESSION_PHOTOS = [
   {
@@ -185,8 +207,8 @@ export default async function GrupTerapileriPage() {
     <div>
       <PageHero
         eyebrow="Grup Terapileri"
-        title="Paylaşıldıkça Hafifleyen, Birlikte Büyüyen Alanlar"
-        lead="Grup terapileri; benzer deneyimler yaşayan insanların bir araya gelerek güçlü bir destek ağı oluşturduğu profesyonel süreçlerdir."
+        title="Grup Terapileri"
+        lead="Paylaşmak, dinlemek, birlikte büyümek."
         quote="“Kendini anlatabildiğin bir ortam, iyileşmenin ilk adımıdır.”"
         breadcrumb={[{ label: "Anasayfa", href: "/" }, { label: "Grup Terapileri" }]}
       />
@@ -205,11 +227,16 @@ export default async function GrupTerapileriPage() {
             />
           </div>
           <div className="lg:col-span-7">
-            <p className="eyebrow text-sage dark:text-tan">Neden Grup?</p>
+            <p className="eyebrow text-sage dark:text-tan">Grup Terapileri</p>
             <h2 className="mt-4 font-serif text-[2rem] leading-tight text-ink dark:text-cream sm:text-[2.4rem]">
-              Yalnız olmadığınızı görmek, değişimin güçlü bir başlangıcıdır.
+              Grup Terapilerinin Faydaları
             </h2>
             <p className="mt-5 text-[15.5px] leading-relaxed text-muted">
+              Yalnız olmadığınızı görmek, değişimin güçlü bir başlangıcıdır. Grup terapisi; benzer
+              deneyimler yaşayan insanların bir araya gelerek güçlü bir destek ağı oluşturduğu
+              profesyonel süreçlerdir.
+            </p>
+            <p className="mt-3 text-[15.5px] leading-relaxed text-muted">
               Grup terapileri; bireyin kendi deneyimini başkalarının deneyimleriyle karşılaştırmasına,
               yeni iletişim yolları denemesi ve güvenli bir çerçevede duygularını ifade etmesine alan açar.
               Süreç, alanında uzman bir kolaylaştırıcı tarafından yürütülür ve bilimsel temellere dayanır.
@@ -223,6 +250,69 @@ export default async function GrupTerapileriPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* UYGULANAN GRUP TERAPİLERİ */}
+      <section className="bg-cream py-14 dark:bg-[#161a16] lg:py-20">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+          <p className="eyebrow text-sage dark:text-tan">Uygulanan Grup Terapileri</p>
+          <h2 className="mt-4 font-serif text-[2rem] leading-tight text-ink dark:text-cream sm:text-[2.3rem]">
+            Hangi gruplar yürütülüyor?
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Grupların teması ve süresi ihtiyaca göre belirlenir. Aşağıdaki başlıklar, yürütülen grup
+            çalışmalarının genel çerçevesini gösterir.
+          </p>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {APPLIED_GROUPS.map((g) => (
+              <article
+                key={g.title}
+                className="overflow-hidden rounded-[22px] border border-line bg-paper dark:border-white/10 dark:bg-white/5"
+              >
+                <Image
+                  src={g.image}
+                  alt={g.alt}
+                  width={1440}
+                  height={900}
+                  className="h-[230px] w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <h3 className="font-serif text-[19px] text-ink dark:text-cream">{g.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-muted">{g.desc}</p>
+                  <Link
+                    href="/randevu"
+                    className="mt-4 inline-flex items-center gap-2 border-b border-forest pb-0.5 text-[13.5px] font-semibold text-forest dark:border-tan dark:text-tan"
+                  >
+                    Detayları Gör
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-3.5 w-3.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h15m0 0-5-5m5 5-5 5" />
+                    </svg>
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Birlikte iyileşmek — CTA kartı */}
+          <div className="mt-10 flex flex-col items-center gap-6 rounded-[22px] bg-forest px-8 py-10 text-center lg:flex-row lg:justify-between lg:text-left">
+            <div>
+              <h3 className="font-serif text-[1.7rem] leading-tight text-cream sm:text-[2rem]">
+                Birlikte iyileşmek mümkün.
+              </h3>
+              <p className="mt-2 max-w-xl text-[15px] text-cream/75">
+                Grup terapisi yolculuğuna çıkmak, yalnız olmadığınızı görmek demektir.
+              </p>
+            </div>
+            <Link
+              href="/randevu"
+              className="shrink-0 rounded-full bg-tan px-7 py-3.5 text-[14.5px] font-semibold text-forest transition-colors hover:bg-white"
+            >
+              Randevu Al
+            </Link>
           </div>
         </div>
       </section>

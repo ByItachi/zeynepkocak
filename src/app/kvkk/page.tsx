@@ -1,85 +1,129 @@
+import Link from "next/link";
+import PageHero from "@/components/PageHero";
+
 export const metadata = {
   title: "KVKK Aydınlatma Metni | Zeynep Koçak",
-  description: "Kişisel Verilerin Korunması Kanunu (KVKK) aydınlatma metni.",
+  description: "Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca aydınlatma metni.",
 };
 
 export default function KVKK() {
   return (
     <div>
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-[#faf7f2] to-white py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="font-serif text-4xl md:text-5xl mb-6 text-[#2f332e]">
-            KVKK Aydınlatma Metni
-          </h1>
-          <p className="text-lg text-[#5b5f58] leading-relaxed">
-            Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca aydınlatma metni
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="KVKK"
+        title="KVKK Aydınlatma Metni"
+        lead="Kişisel verileriniz bizim için değerlidir."
+        quote="“Gizlilik, güvenin temelidir.”"
+        breadcrumb={[{ label: "Anasayfa", href: "/" }, { label: "KVKK" }]}
+      />
 
-      {/* İÇERİK */}
-      <section className="py-20 md:py-28">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="prose prose-lg max-w-none text-[#5b5f58]">
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">1. Veri Sorumlusu</h2>
-            <p className="mb-6 leading-relaxed">
-              Zeynep Koçak (Uzm. Psikolog), Bağdat Caddesi, İstanbul
-            </p>
+      <section className="py-14 lg:py-16">
+        <div className="mx-auto max-w-[860px] px-5 sm:px-8">
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">1. Veri Sorumlusu</h2>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">
+                Zeynep Koçak (Uzm. Psikolog), Bağdat Caddesi, İstanbul
+              </p>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">2. Kişisel Verilerin Kategorileri</h2>
-            <p className="mb-4 leading-relaxed">
-              Aşağıdaki kişisel veriler toplanabilir:
-            </p>
-            <ul className="mb-6 leading-relaxed space-y-2">
-              <li>• Kimlik bilgileri (ad, soyadı)</li>
-              <li>• İletişim bilgileri (e-posta, telefon)</li>
-              <li>• Sağlık bilgileri (terapiye ilişkin)</li>
-              <li>• Demografik bilgiler</li>
-            </ul>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">
+                2. Kişisel Verilerin Kategorileri
+              </h2>
+              <ul className="mt-2.5 space-y-1.5 text-[15.5px] leading-relaxed text-muted">
+                <li>• Kimlik bilgileri (ad, soyadı)</li>
+                <li>• İletişim bilgileri (e-posta, telefon)</li>
+                <li>• Sağlık bilgileri (terapiye ilişkin)</li>
+                <li>• Demografik bilgiler</li>
+              </ul>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">3. Verilerin İşlenme Amacı</h2>
-            <p className="mb-4 leading-relaxed">
-              Kişisel veriler aşağıdaki amaçlarla işlenir:
-            </p>
-            <ul className="mb-6 leading-relaxed space-y-2">
-              <li>• Psikolojik danışmanlık hizmetinin sağlanması</li>
-              <li>• Randevu yönetimi</li>
-              <li>• Yasal yükümlülüklerin yerine getirilmesi</li>
-              <li>• Hizmet kalitesinin iyileştirilmesi</li>
-            </ul>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">
+                3. Verilerin İşlenme Amacı
+              </h2>
+              <ul className="mt-2.5 space-y-1.5 text-[15.5px] leading-relaxed text-muted">
+                <li>• Psikolojik danışmanlık hizmetinin sağlanması</li>
+                <li>• Randevu yönetimi</li>
+                <li>• Yasal yükümlülüklerin yerine getirilmesi</li>
+                <li>• Hizmet kalitesinin iyileştirilmesi</li>
+              </ul>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">4. Verilerin Paylaşılması</h2>
-            <p className="mb-6 leading-relaxed">
-              Kişisel veriler, yasal zorunluluk olmadıkça üçüncü taraflarla paylaşılmaz. Hizmet sağlayıcılarla (e-posta, hosting, vb.) paylaşım yapılabilir.
-            </p>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">
+                4. Verilerin Paylaşılması
+              </h2>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">
+                Kişisel veriler, yasal zorunluluk olmadıkça üçüncü taraflarla paylaşılmaz. Hizmet
+                sağlayıcılarla (e-posta, hosting vb.) paylaşım yapılabilir.
+              </p>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">5. Verilerin Saklanma Süresi</h2>
-            <p className="mb-6 leading-relaxed">
-              Kişisel veriler, işlenme amacı sona erene kadar saklanır. Yasal zorunluluklar gereğince daha uzun süre saklanabilir.
-            </p>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">
+                5. Verilerin Saklanma Süresi
+              </h2>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">
+                Kişisel veriler, işlenme amacı sona erene kadar saklanır. Yasal zorunluluklar
+                gereğince daha uzun süre saklanabilir.
+              </p>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">6. Haklarınız</h2>
-            <p className="mb-4 leading-relaxed">
-              KVKK uyarınca aşağıdaki haklara sahipsiniz:
-            </p>
-            <ul className="mb-6 leading-relaxed space-y-2">
-              <li>• Kişisel verilerinize erişim hakkı</li>
-              <li>• Kişisel verilerinizi düzeltme hakkı</li>
-              <li>• Kişisel verilerinizi silme hakkı</li>
-              <li>• Veri işlemeye itiraz etme hakkı</li>
-              <li>• Veri taşınabilirliği hakkı</li>
-            </ul>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">6. Haklarınız</h2>
+              <ul className="mt-2.5 space-y-1.5 text-[15.5px] leading-relaxed text-muted">
+                <li>• Kişisel verilerinize erişim hakkı</li>
+                <li>• Kişisel verilerinizi düzeltme hakkı</li>
+                <li>• Kişisel verilerinizi silme hakkı</li>
+                <li>• Veri işlemeye itiraz etme hakkı</li>
+                <li>• Veri taşınabilirliği hakkı</li>
+              </ul>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">7. Haklarınızı Kullanma</h2>
-            <p className="mb-6 leading-relaxed">
-              Haklarınızı kullanmak için lütfen iletişime geçiniz. Talebiniz, makul bir süre içinde karşılanacaktır.
-            </p>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">
+                7. Haklarınızı Kullanma
+              </h2>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">
+                Haklarınızı kullanmak için lütfen iletişime geçiniz. Talebiniz, makul bir süre içinde
+                karşılanacaktır.
+              </p>
+            </div>
 
-            <h2 className="font-serif text-2xl mb-4 text-[#2f332e]">8. Gizlilik</h2>
-            <p className="mb-6 leading-relaxed">
-              Terapiye ilişkin tüm bilgiler tamamen gizli tutulur. Yasal zorunluluk olmadıkça, hiçbir bilgi paylaşılmaz.
-            </p>
+            <div>
+              <h2 className="font-serif text-[1.5rem] text-ink dark:text-cream">8. Gizlilik</h2>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">
+                Terapiye ilişkin tüm bilgiler tamamen gizli tutulur. Yasal zorunluluk olmadıkça hiçbir
+                bilgi paylaşılmaz.
+              </p>
+            </div>
+          </div>
+
+          {/* İlgili Dokümanlar */}
+          <div className="mt-12 rounded-[22px] border border-line bg-cream p-7 dark:border-white/10 dark:bg-white/5">
+            <h2 className="font-serif text-[1.4rem] text-ink dark:text-cream">İlgili Dokümanlar</h2>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/gizlilik-politikasi"
+                className="rounded-full border border-forest px-6 py-2.5 text-[13.5px] font-semibold text-forest transition-colors hover:bg-forest hover:text-white dark:border-tan dark:text-tan"
+              >
+                Gizlilik Politikası
+              </Link>
+              <Link
+                href="/cerez-politikasi"
+                className="rounded-full border border-forest px-6 py-2.5 text-[13.5px] font-semibold text-forest transition-colors hover:bg-forest hover:text-white dark:border-tan dark:text-tan"
+              >
+                Çerez Politikası
+              </Link>
+              <Link
+                href="/iletisim"
+                className="rounded-full bg-forest px-6 py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-forest-deep dark:bg-tan dark:text-forest"
+              >
+                İletişime Geç
+              </Link>
+            </div>
           </div>
         </div>
       </section>
