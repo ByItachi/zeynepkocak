@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// Geçici olarak kapatıldı: lisans kontrolünü yeniden açmak için true yapın.
+const LICENSE_CHECK_ENABLED = false;
+
 const LICENSE_COOKIE = "zdr_license";
 const ADMIN_SESSION_COOKIE = "zdr_admin_session";
 const USER_SESSION_COOKIE = "zdr_session";
@@ -37,7 +40,8 @@ export function middleware(request: NextRequest) {
   const licenseCookie = request.cookies.get(LICENSE_COOKIE);
   const adminSessionCookie = request.cookies.get(ADMIN_SESSION_COOKIE);
   const userSessionCookie = request.cookies.get(USER_SESSION_COOKIE);
-  if ((!licenseCookie || !licenseCookie.value) && 
+  if (LICENSE_CHECK_ENABLED &&
+      (!licenseCookie || !licenseCookie.value) && 
       (!adminSessionCookie || !adminSessionCookie.value) && 
       (!userSessionCookie || !userSessionCookie.value)) {
     return NextResponse.redirect(new URL("/license-check", request.url));

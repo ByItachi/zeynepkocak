@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useAppLocale } from "./LocaleProvider";
 
 interface NavItem {
   label: string;
@@ -13,33 +15,35 @@ interface NavItem {
   children?: { label: string; href: string; desc?: string }[];
 }
 
-const NAV: NavItem[] = [
-  { label: "Anasayfa", href: "/" },
-  {
-    label: "Hakkımda",
-    href: "/hakkimda",
-    children: [
-      { label: "Profesyonel Profil", href: "/hakkimda", desc: "Eğitim, deneyim ve çalışma yaklaşımı" },
-      { label: "Psikodrama Yaklaşımı", href: "/psikodrama", desc: "Co-Psychodramatist grup çalışması" },
-      { label: "Transformational Breath®", href: "/transformational-breath", desc: "Nefes ve beden farkındalığı" },
-    ],
-  },
-  {
-    label: "Hizmetler",
-    href: "/calisma-alanlarim",
-    children: [
-      { label: "Bireysel Danışmanlık", href: "/yetiskinlerle-calisma", desc: "Kaygı, tükenmişlik, öz farkındalık" },
-      { label: "Ergenlerle Çalışma", href: "/ergenlerle-calisma", desc: "Kimlik, aile ve okul kaynaklı zorluklar" },
-      { label: "Çift Terapisi", href: "/ciftlerle-calisma", desc: "İletişim, güven ve çatışma çözümü" },
-      { label: "Online Görüşmeler", href: "/online-gorusmeler", desc: "Dünyanın her yerinden" },
-      { label: "Expat Support", href: "/expat-psychologist", desc: "Therapy sessions in English" },
-    ],
-  },
-  { label: "Grup Terapileri", href: "/grup-terapileri" },
-  { label: "Atölyeler", href: "/atolyeler" },
-  { label: "Blog", href: "/blog" },
-  { label: "İletişim", href: "/iletisim" },
-];
+function buildNav(nav: ReturnType<typeof useAppLocale>["messages"]["nav"]): NavItem[] {
+  return [
+    { label: nav.home, href: "/" },
+    {
+      label: nav.about,
+      href: "/hakkimda",
+      children: [
+        { label: "Profesyonel Profil", href: "/hakkimda", desc: "Eğitim, deneyim ve çalışma yaklaşımı" },
+        { label: "Psikodrama Yaklaşımı", href: "/psikodrama", desc: "Co-Psychodramatist grup çalışması" },
+        { label: "Transformational Breath®", href: "/transformational-breath", desc: "Nefes ve beden farkındalığı" },
+      ],
+    },
+    {
+      label: nav.services,
+      href: "/calisma-alanlarim",
+      children: [
+        { label: "Bireysel Danışmanlık", href: "/yetiskinlerle-calisma", desc: "Kaygı, tükenmişlik, öz farkındalık" },
+        { label: "Ergenlerle Çalışma", href: "/ergenlerle-calisma", desc: "Kimlik, aile ve okul kaynaklı zorluklar" },
+        { label: "Çift Terapisi", href: "/ciftlerle-calisma", desc: "İletişim, güven ve çatışma çözümü" },
+        { label: "Online Görüşmeler", href: "/online-gorusmeler", desc: "Dünyanın her yerinden" },
+        { label: "Expat Support", href: "/expat-psychologist", desc: "Therapy sessions in English" },
+      ],
+    },
+    { label: nav.groups, href: "/grup-terapileri" },
+    { label: nav.workshops, href: "/atolyeler" },
+    { label: nav.blog, href: "/blog" },
+    { label: nav.contact, href: "/iletisim" },
+  ];
+}
 
 export default function SiteHeader({
   brandName,
@@ -50,6 +54,8 @@ export default function SiteHeader({
   profileImageUrl?: string;
 }) {
   const pathname = usePathname();
+  const { messages } = useAppLocale();
+  const NAV = buildNav(messages.nav);
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
@@ -223,6 +229,7 @@ export default function SiteHeader({
 
           {/* Sağ taraf */}
           <div className="flex items-center gap-2 sm:gap-3">
+            <LanguageSwitcher />
             <span className={solid ? "" : "text-white"}>
               <ThemeToggle />
             </span>
@@ -230,7 +237,7 @@ export default function SiteHeader({
               href="/randevu"
               className="hidden rounded-full bg-tan px-5 py-2.5 text-[13.5px] font-semibold tracking-wide text-forest shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)] transition-colors hover:bg-tan-deep hover:text-white sm:inline-block xl:px-6"
             >
-              Randevu Al
+              {messages.nav.booking}
             </Link>
             <button
               ref={hamburgerRef}
@@ -378,13 +385,16 @@ export default function SiteHeader({
                     )}
                   </div>
                 ))}
+                <div className="flex justify-center py-4">
+                  <LanguageSwitcher />
+                </div>
                 <div className="py-6">
                   <Link
                     href="/randevu"
                     onClick={closeAll}
                     className="block rounded-full bg-tan py-3.5 text-center font-semibold text-forest"
                   >
-                    Randevu Al
+                    {messages.nav.booking}
                   </Link>
                   <a
                     href={instagramUrl}
