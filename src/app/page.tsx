@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllSettings } from "@/lib/settings";
-import { prisma } from "@/lib/prisma";
+import { prisma, safeQuery } from "@/lib/prisma";
 import { INSTAGRAM_GALLERY } from "@/lib/instagram-gallery";
 import InstagramGallery from "@/components/InstagramGallery";
 import VideoCard from "@/components/VideoCard";
@@ -84,11 +84,16 @@ const TRUST = [
 
 export default async function HomePage() {
   const settings = await getAllSettings();
-  const latestPosts = await prisma.post.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { publishedAt: "desc" },
-    take: 3,
-  });
+  const latestPosts = await safeQuery(
+    "home.latestPosts",
+    () =>
+      prisma.post.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: { publishedAt: "desc" },
+        take: 3,
+      }),
+    []
+  );
 
   return (
     <div>

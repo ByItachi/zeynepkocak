@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma, safeQuery } from "@/lib/prisma";
 
 export const DEFAULT_SETTINGS: Record<string, string> = {
   site_title: "Zeynep Koçak | Uzm. Psikolog",
@@ -25,12 +25,16 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
 };
 
 export async function getSetting(key: string): Promise<string> {
-  const row = await prisma.siteSetting.findUnique({ where: { key } });
+  const row = await safeQuery(
+    `getSetting(${key})`,
+    () => prisma.siteSetting.findUnique({ where: { key } }),
+    null
+  );
   return row?.value ?? DEFAULT_SETTINGS[key] ?? "";
 }
 
 export async function getAllSettings(): Promise<Record<string, string>> {
-  const rows = await prisma.siteSetting.findMany();
+  const rows = await safeQuery("getAllSettings", () => prisma.siteSetting.findMany(), []);
   const fromDb = Object.fromEntries(rows.map((r) => [r.key, r.value]));
   return { ...DEFAULT_SETTINGS, ...fromDb };
 }

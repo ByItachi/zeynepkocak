@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
+import { prisma, safeQuery } from "@/lib/prisma";
 import PageHero from "@/components/PageHero";
 
 export const dynamic = "force-dynamic";
@@ -24,17 +24,22 @@ export default async function BlogListPage({
   const { kategori } = await searchParams;
 
   const [categories, posts] = await Promise.all([
-    prisma.postCategory.findMany({ orderBy: { name: "asc" } }),
-    prisma.post.findMany({
-      where: {
-        status: "PUBLISHED",
-        ...(kategori
-          ? { categories: { some: { slug: kategori } } }
-          : {}),
-      },
-      orderBy: { publishedAt: "desc" },
-      include: { categories: true },
-    }),
+    safeQuery("blog.categories", () => prisma.postCategory.findMany({ orderBy: { name: "asc" } }), []),
+    safeQuery(
+      "blog.posts",
+      () =>
+        prisma.post.findMany({
+          where: {
+            status: "PUBLISHED",
+            ...(kategori
+              ? { categories: { some: { slug: kategori } } }
+              : {}),
+          },
+          orderBy: { publishedAt: "desc" },
+          include: { categories: true },
+        }),
+      []
+    ),
   ]);
 
   return (

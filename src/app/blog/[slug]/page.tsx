@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
+import { prisma, safeQuery } from "@/lib/prisma";
 import PageHero from "@/components/PageHero";
 
 export async function generateMetadata({
@@ -11,7 +11,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({ where: { slug } });
+  const post = await safeQuery("blog.slug.metadata", () => prisma.post.findUnique({ where: { slug } }), null);
   if (!post) return {};
   return {
     title: post.seoTitle || post.title,
@@ -32,17 +32,27 @@ function formatDate(d: Date | null) {
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({
-    where: { slug },
-    include: { categories: true },
-  });
+  const post = await safeQuery(
+    "blog.slug.post",
+    () =>
+      prisma.post.findUnique({
+        where: { slug },
+        include: { categories: true },
+      }),
+    null
+  );
   if (!post || post.status !== "PUBLISHED") notFound();
 
-  const recentPosts = await prisma.post.findMany({
-    where: { status: "PUBLISHED", id: { not: post.id } },
-    orderBy: { publishedAt: "desc" },
-    take: 4,
-  });
+  const recentPosts = await safeQuery(
+    "blog.slug.recentPosts",
+    () =>
+      prisma.post.findMany({
+        where: { status: "PUBLISHED", id: { not: post.id } },
+        orderBy: { publishedAt: "desc" },
+        take: 4,
+      }),
+    []
+  );
 
   return (
     <div>
