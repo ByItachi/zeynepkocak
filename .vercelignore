@@ -1,0 +1,7 @@
+.env
+.env.*
+*.db
+*.db-journal
+.vercel
+.next
+node_modules
