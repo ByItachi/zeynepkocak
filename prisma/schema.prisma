@@ -345,3 +345,68 @@ model DesignSetting {
 // Medya v2 için ek alanlar MediaAsset'e eklendi:
 // source, isAi, focusX, focusY, widthHint, heightHint,
 // Kanonik olmayan alanlar migration sonrası model'e yansır.
+
+
+// ===== E-ticaret modülü (ayarlardan "ecommerce_mode_enabled" ile açılıp kapanır) =====
+// ProductType: COURSE (Zoom/Meet ile online eğitim) | DIGITAL (indirilebilir video/pdf)
+// OrderStatus: PENDING | PAID | FAILED | CANCELED
+// PaymentProvider: PAYTR | IYZICO
+model Product {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String
+  type          String   @default("DIGITAL")
+  priceCents    Int
+  currency      String   @default("TRY")
+  coverImageUrl String?
+  isPublished   Boolean  @default(true)
+  meetingUrl    String?  // COURSE tipi için Zoom/Google Meet bağlantısı
+  meetingProvider String? // "zoom" | "google_meet"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  assets        DigitalAsset[]
+  orderItems    OrderItem[]
+}
+
+model DigitalAsset {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label     String
+  fileUrl   String
+  fileType  String // "video" | "pdf"
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  totalCents      Int
+  currency        String   @default("TRY")
+  status          String   @default("PENDING")
+  paymentProvider String?  // "PAYTR" | "IYZICO"
+  paymentRef      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  items           OrderItem[]
+
+  @@index([customerEmail])
+}
+
+model OrderItem {
+  id         String  @id @default(cuid())
+  orderId    String
+  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product @relation(fields: [productId], references: [id])
+  title      String
+  unitPriceCents Int
+  quantity   Int     @default(1)
+
+  @@index([orderId])
+}

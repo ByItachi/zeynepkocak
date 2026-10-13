@@ -320,7 +320,7 @@ export default function SiteHeader({
             >
               <div className="flex items-center justify-between border-b border-line dark:border-white/10 px-5 py-4">
                 <span className="flex items-center gap-2 font-serif text-lg text-ink dark:text-cream">
-                  <Logo className="h-7 w-7 text-tan" />
+                  <Logo className="h-10 w-10 shrink-0 text-tan" />
                   Zeynep Koçak
                 </span>
                 <button

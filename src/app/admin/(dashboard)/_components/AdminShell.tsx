@@ -44,6 +44,7 @@ const ICONS = {
   users: <Ic d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 20a6 6 0 0 1 12 0M15 20a5.5 5.5 0 0 1 6-4.5" />,
   cog: <Ic d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" extra={<path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z" />} />,
   plug: <Ic d="M9 3v6M15 3v6M7 9h10v3a5 5 0 0 1-10 0zM12 17v4" />,
+  cart: <Ic d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6" extra={<><circle cx="9" cy="20" r="1.3" /><circle cx="17" cy="20" r="1.3" /></>} />,
 };
 
 const GROUPS: { title?: string; items: NavItem[] }[] = [
@@ -65,6 +66,13 @@ const GROUPS: { title?: string; items: NavItem[] }[] = [
       { href: "/admin/media", label: "Medya Kütüphanesi", icon: ICONS.image, keywords: "medya görsel resim video" },
       { href: "/admin/ai-studio", label: "AI Görsel Stüdyosu", icon: ICONS.sparkles, keywords: "ai görsel üret" },
       { href: "/admin/theme", label: "Tema & Tasarım", icon: ICONS.palette, keywords: "tema renk yazı tipi" },
+    ],
+  },
+  {
+    title: "Mağaza",
+    items: [
+      { href: "/admin/products", label: "Ürünler & Kurslar", icon: ICONS.cart, keywords: "ürün kurs eğitim e-ticaret dijital" },
+      { href: "/admin/orders", label: "Siparişler", icon: ICONS.calendar, keywords: "sipariş ödeme sepet" },
     ],
   },
   {
