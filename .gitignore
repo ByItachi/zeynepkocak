@@ -43,3 +43,4 @@ next-env.d.ts
 ADMIN_CREDENTIALS.local.txt
 dev.db
 *.db-journal
+.vercel
