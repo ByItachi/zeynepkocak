@@ -6,6 +6,7 @@ import { INSTAGRAM_GALLERY } from "@/lib/instagram-gallery";
 import InstagramGallery from "@/components/InstagramGallery";
 import VideoCard from "@/components/VideoCard";
 import PublicEditorSections from "@/components/PublicEditorSections";
+import HeroSlider, { type HeroSlide } from "@/components/HeroSlider";
 
 export const dynamic = "force-dynamic";
 
@@ -84,6 +85,17 @@ const TRUST = [
 
 export default async function HomePage() {
   const settings = await getAllSettings();
+  const heroSlides: HeroSlide[] = [
+    { type: "image", src: settings.hero_image_url, alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/zeynep-portre.jpg", alt: "Uzm. Psk. Zeynep Koçak — portre" },
+    {
+      type: "video",
+      src: "/videos/tanitim.mp4",
+      poster: "/images/portre/zeynep-portre-yesil.jpg",
+      alt: "Tanıtım videosu",
+    },
+    { type: "image", src: "/images/grup/oturum-daire.jpg", alt: "Grup terapisi oturumundan bir kare" },
+  ];
   const latestPosts = await safeQuery(
     "home.latestPosts",
     () =>
@@ -99,18 +111,16 @@ export default async function HomePage() {
     <div>
       {/* ===== HERO — koyu orman yeşili bant ===== */}
       <section className="relative -mt-[72px] overflow-hidden bg-forest pt-[72px] text-white">
-        {/* Sağdaki portre */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] lg:block">
-          <Image
-            src={settings.hero_image_url}
-            alt="Uzm. Psk. Zeynep Koçak"
-            fill
-            priority
-            sizes="46vw"
-            className="object-cover object-[50%_28%]"
+        {/* Sağdaki kayan banner (görsel + video) */}
+        <div className="absolute inset-y-0 right-0 hidden w-[46%] lg:block">
+          <HeroSlider
+            slides={heroSlides}
+            intervalMs={5000}
+            className="h-full w-full"
+            mediaClassName="object-[50%_28%]"
           />
-          <span className="absolute inset-0 bg-gradient-to-r from-forest via-forest/45 to-transparent" />
-          <span className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-forest to-transparent" />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-forest via-forest/45 to-transparent" />
+          <span className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-forest to-transparent" />
         </div>
 
         <div className="relative mx-auto grid max-w-[1240px] gap-10 px-5 pb-16 pt-14 sm:px-8 lg:grid-cols-12 lg:pb-28 lg:pt-24">
@@ -152,17 +162,13 @@ export default async function HomePage() {
               </a>
             </div>
 
-            {/* Mobil portre */}
-            <div className="relative mt-12 overflow-hidden rounded-[22px] lg:hidden">
-              <Image
-                src={settings.hero_image_url}
-                alt="Uzm. Psk. Zeynep Koçak"
-                width={900}
-                height={640}
-                priority
-                className="h-[300px] w-full object-cover object-[50%_25%]"
-              />
-            </div>
+            {/* Mobil kayan banner (görsel + video) */}
+            <HeroSlider
+              slides={heroSlides}
+              intervalMs={5000}
+              className="mt-12 h-[300px] w-full rounded-[22px] lg:hidden"
+              mediaClassName="object-[50%_25%]"
+            />
           </div>
 
           {/* El yazısı alıntı + randevu kartı */}
