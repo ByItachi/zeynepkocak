@@ -21,6 +21,7 @@ const EDITABLE_KEYS = [
   "primary_color",
   "accent_color",
   "background_color",
+  "ecommerce_mode_enabled",
 ];
 
 export async function saveSettings(formData: FormData) {

@@ -543,10 +543,10 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-forest py-16 text-white lg:py-24">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/instagram/reel-1.jpg"
+          src="/images/cta-hands.jpg"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover opacity-20"
+          className="absolute inset-0 h-full w-full animate-cta-kenburns object-cover opacity-20"
           loading="lazy"
         />
         <div className="relative mx-auto max-w-[1240px] px-5 text-center sm:px-8">

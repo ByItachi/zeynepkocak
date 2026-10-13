@@ -18,6 +18,7 @@ const FIELDS: { key: string; label: string; type?: string }[] = [
   { key: "primary_color", label: "Ana Renk (hex)" },
   { key: "accent_color", label: "Vurgu Rengi (hex)" },
   { key: "background_color", label: "Arka Plan Rengi (hex)" },
+  { key: "ecommerce_mode_enabled", label: "E-ticaret Modu", type: "checkbox" },
 ];
 
 export default function SettingsForm({ values }: { values: Record<string, string> }) {
@@ -56,6 +57,20 @@ export default function SettingsForm({ values }: { values: Record<string, string
               rows={3}
               className="w-full rounded border border-[#e2dccd] px-3 py-2 text-sm"
             />
+          ) : field.type === "checkbox" ? (
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name={field.key}
+                value="true"
+                defaultChecked={values[field.key] === "true"}
+                className="h-4 w-4 rounded border-[#e2dccd]"
+              />
+              <input type="hidden" name={field.key} value="false" />
+              <span className="text-xs text-[#8a8f82]">
+                Etkinleştirilirse sitede e-ticaret özellikleri (ürün/hizmet satışı) devreye alınır.
+              </span>
+            </div>
           ) : (
             <input
               name={field.key}

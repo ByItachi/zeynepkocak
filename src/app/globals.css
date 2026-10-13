@@ -147,6 +147,18 @@ h1, h2, h3, h4 {
   animation: fadeIn 0.2s ease-out;
 }
 
+@keyframes cta-kenburns {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-1.5%, -1%); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+.animate-cta-kenburns {
+  animation: cta-kenburns 18s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
 /* Görünür odak halkası (klavye erişilebilirliği) */
 :where(a, button, summary, input, textarea, select):focus-visible {
   outline: 2px solid var(--accent);
@@ -155,7 +167,7 @@ h1, h2, h3, h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-fadeIn, .animate-bounce-slow {
+  .animate-fadeIn, .animate-bounce-slow, .animate-cta-kenburns {
     animation: none;
   }
   *, *::before, *::after {

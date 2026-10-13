@@ -22,6 +22,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   instagram_followers: "4.867",
   instagram_following: "3.300",
   instagram_posts: "273",
+  ecommerce_mode_enabled: "false",
 };
 
 export async function getSetting(key: string): Promise<string> {
