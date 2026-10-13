@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 rounded-full border border-forest/30 bg-white px-3 py-1.5 text-xs font-medium text-forest transition-colors hover:bg-forest/5 dark:border-tan/30 dark:bg-transparent dark:text-tan dark:hover:bg-tan/10"
+        className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-forest/30 bg-white px-3 py-1.5 text-xs font-medium text-forest transition-colors hover:bg-forest/5 dark:border-tan/30 dark:bg-transparent dark:text-tan dark:hover:bg-tan/10"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Dil: ${active.label}`}

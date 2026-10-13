@@ -228,14 +228,16 @@ export default function SiteHeader({
           </nav>
 
           {/* Sağ taraf */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <LanguageSwitcher />
-            <span className={solid ? "" : "text-white"}>
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <span className="shrink-0">
+              <LanguageSwitcher />
+            </span>
+            <span className={`shrink-0 ${solid ? "" : "text-white"}`}>
               <ThemeToggle />
             </span>
             <Link
               href="/randevu"
-              className="hidden rounded-full bg-tan px-5 py-2.5 text-[13.5px] font-semibold tracking-wide text-forest shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)] transition-colors hover:bg-tan-deep hover:text-white sm:inline-block xl:px-6"
+              className="hidden shrink-0 whitespace-nowrap rounded-full bg-tan px-4 py-2.5 text-[13px] font-semibold tracking-wide text-forest shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)] transition-colors hover:bg-tan-deep hover:text-white sm:inline-block xl:px-6 xl:text-[13.5px]"
             >
               {messages.nav.booking}
             </Link>
