@@ -172,9 +172,9 @@ export default function SiteHeader({
             onClick={closeAll}
             aria-label={`${brandName} — Anasayfa`}
           >
-            <Logo className="h-8 w-8 shrink-0 text-tan sm:h-9 sm:w-9" />
+            <Logo className="h-10 w-10 shrink-0 text-tan sm:h-9 sm:w-9" />
             <span className="min-w-0 leading-none">
-              <span className="block truncate font-serif text-[17px] tracking-[0.02em] sm:text-[19px]">{brandName}</span>
+              <span className="block truncate font-serif text-[20px] tracking-[0.02em] sm:text-[19px]">{brandName}</span>
               <span className="mt-1 hidden text-[9.5px] font-semibold uppercase tracking-[0.3em] opacity-70 sm:block lg:hidden xl:block">
                 Psikolojik Danışmanlık
               </span>
@@ -387,7 +387,7 @@ export default function SiteHeader({
                     )}
                   </div>
                 ))}
-                <div className="flex justify-center py-4">
+                <div className="flex justify-start py-4">
                   <LanguageSwitcher />
                 </div>
                 <div className="py-6">
