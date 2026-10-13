@@ -229,7 +229,7 @@ export default function SiteHeader({
 
           {/* Sağ taraf */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-            <span className="shrink-0">
+            <span className="hidden shrink-0 lg:block">
               <LanguageSwitcher />
             </span>
             <span className={`shrink-0 ${solid ? "" : "text-white"}`}>
