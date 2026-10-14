@@ -86,16 +86,14 @@ const TRUST = [
 export default async function HomePage() {
   const settings = await getAllSettings();
   const heroSlides: HeroSlide[] = [
-    { type: "image", src: settings.hero_image_url, alt: "Uzm. Psk. Zeynep Koçak" },
-    { type: "image", src: "/images/hero/zeynep-profesyonel.jpg", alt: "Uzm. Psk. Zeynep Koçak — profesyonel portre" },
-    {
-      type: "video",
-      src: "/videos/tanitim.mp4",
-      poster: "/images/portre/zeynep-portre-yesil.jpg",
-      alt: "Tanıtım videosu",
-    },
-    { type: "image", src: "/images/hero/zeynep-yesil-duvar.jpg", alt: "Uzm. Psk. Zeynep Koçak — portre" },
-    { type: "image", src: "/images/grup/oturum-daire.jpg", alt: "Grup terapisi oturumundan bir kare" },
+    { type: "image", src: "/images/hero/slide-1.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-2.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-3.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-4.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-5.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-6.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-7.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
+    { type: "image", src: "/images/hero/slide-8.jpg", alt: "Uzm. Psk. Zeynep Koçak" },
   ];
   const latestPosts = await safeQuery(
     "home.latestPosts",
